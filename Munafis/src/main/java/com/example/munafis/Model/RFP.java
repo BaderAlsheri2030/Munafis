@@ -27,7 +27,10 @@ public class RFP {
     private String referenceNumber;
 
     private String competitionType;
+
+
     private LocalDate deadLine;
+
     private Integer contractLength;
 
     private String serviceDetails;
