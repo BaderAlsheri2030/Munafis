@@ -13,8 +13,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-
-
 public class Products {
 
 
@@ -30,21 +28,21 @@ public class Products {
     @Column(columnDefinition = "double not null")
     private double price;
 
-    @ManyToOne
-    @JoinColumn(name = "provider_id" , referencedColumnName = "id")
-    @JsonIgnore
-    private Provider provider;
-
-    @ManyToOne
-    @JoinColumn(name = "orderr_id" , referencedColumnName = "id")
-    @JsonIgnore
-    private Orderr orderr;
-
-
-
-    @OneToOne(cascade = CascadeType.ALL,mappedBy = "products")
-    @PrimaryKeyJoinColumn
-    private ProductsDetails productsDetails;
+//    @ManyToOne
+//    @JoinColumn(name = "provider_id" , referencedColumnName = "id")
+//    @JsonIgnore
+//    private Provider provider;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "order_id" , referencedColumnName = "id")
+//    @JsonIgnore
+//    private Order order;
+//
+//
+//
+//    @OneToOne(cascade = CascadeType.ALL,mappedBy = "products")
+//    @PrimaryKeyJoinColumn
+//    private ProductsDetails productsDetails;
 
 
 

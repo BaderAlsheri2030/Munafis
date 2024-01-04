@@ -24,10 +24,10 @@ public class ProductsDetails {
     @Column(columnDefinition = "int not null")
     private Integer quantity;
 
-    @OneToOne
-    @MapsId
-    @JsonIgnore
-    private Products products;
+//    @OneToOne
+//    @MapsId
+//    @JsonIgnore
+//    private Products products;
 
 
 
