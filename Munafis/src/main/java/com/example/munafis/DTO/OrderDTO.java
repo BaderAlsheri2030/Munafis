@@ -1,5 +1,8 @@
 package com.example.munafis.DTO;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
