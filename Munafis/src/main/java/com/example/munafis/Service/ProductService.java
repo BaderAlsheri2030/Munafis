@@ -30,6 +30,20 @@ public class ProductService {
         }
 
         Products products = new Products(null,productDTO.getName(),productDTO.getPrice(),provider,null,null);
-
+        productRepository.save(products);
     }
+
+    public void updateProduct(Integer id,ProductDTO productDTO){
+
+        Products oldProduct = productRepository.findProductsById(id);
+        if(oldProduct==null){
+            throw new ApiException("Product Id not found");
+        }
+
+        oldProduct.setName(productDTO.getName());
+        oldProduct.setPrice(productDTO.getPrice());
+        productRepository.save(oldProduct);
+    }
+
+
 }
