@@ -20,27 +20,28 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+    @Column
+    private String status;
+    @Column
     private double totalPrice;
 
 
-    private String status;
 
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
-    private Set<Service> services;
-
-
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
-    private Set<Products> products;
-
-
-
-    @ManyToOne
-    @JoinColumn(name = "company_id",referencedColumnName = "id")
-    @JsonIgnore
-    private Company company;
+//    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
+//    private Set<Service> services;
+//
+//
+//    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
+//    private Set<Products> products;
+//
+//
+//
+//    @ManyToOne
+//    @JoinColumn(name = "company_id",referencedColumnName = "id")
+//    @JsonIgnore
+//    private Company company;
 
 
 

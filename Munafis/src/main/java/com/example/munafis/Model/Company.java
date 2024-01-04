@@ -47,10 +47,10 @@ public class Company {
     private String role;
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "company")
-    private Set<Order> orders;
-
-
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "company")
-    private Set<RFP> rfps;
+//    @OneToMany(cascade = CascadeType.ALL,mappedBy = "company")
+//    private Set<Order> orders;
+//
+//
+//    @OneToMany(cascade = CascadeType.ALL,mappedBy = "company")
+//    private Set<RFP> rfps;
 }

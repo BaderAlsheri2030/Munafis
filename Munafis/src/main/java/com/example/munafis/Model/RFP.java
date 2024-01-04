@@ -30,31 +30,25 @@ public class RFP {
 
 
     private LocalDate deadLine;
-
     private Integer contractLength;
-
     private String serviceDetails;
-
-    private boolean status;
-
     private String title;
     private LocalDate timeLeft;
 
 
-    @ManyToOne
-    @JoinColumn(name = "company_id" , referencedColumnName = "id")
-    @JsonIgnore
-    private Company company;
-
-
-
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "rfp")
-    private Set<Offers> offersSet;
-
-    @ManyToOne
-    @JoinColumn(name = "competition_id" , referencedColumnName = "id")
-    @JsonIgnore
-    private Competition competition;
+//    @ManyToOne
+//    @JoinColumn(name = "company_id" , referencedColumnName = "id")
+//    @JsonIgnore
+//    private Company company;
+//
+//
+//    @OneToMany(cascade = CascadeType.ALL,mappedBy = "rfp")
+//    private Set<Offers> offersSet;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "competition_id" , referencedColumnName = "id")
+//    @JsonIgnore
+//    private Competition competition;
 
 
 }

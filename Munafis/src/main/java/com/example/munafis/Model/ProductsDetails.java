@@ -22,10 +22,10 @@ public class ProductsDetails {
 
     private Integer quantity;
 
-    @OneToOne
-    @MapsId
-    @JsonIgnore
-    private Products products;
+//    @OneToOne
+//    @MapsId
+//    @JsonIgnore
+//    private Products products;
 
 
 

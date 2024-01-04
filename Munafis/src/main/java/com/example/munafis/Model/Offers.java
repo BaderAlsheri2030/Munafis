@@ -35,14 +35,14 @@ public class Offers {
     private String conditions;
 
 
-    @ManyToOne
-    @JoinColumn(name = "offer_id" , referencedColumnName = "id")
-    @JsonIgnore
-    private RFP rfp;
-
-    @ManyToOne
-    @JoinColumn(name = "provider_id" , referencedColumnName = "id")
-    @JsonIgnore
-    private Provider provider;
+//    @ManyToOne
+//    @JoinColumn(name = "offer_id" , referencedColumnName = "id")
+//    @JsonIgnore
+//    private RFP rfp;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "provider_id" , referencedColumnName = "id")
+//    @JsonIgnore
+//    private Provider provider;
 
 }

@@ -25,19 +25,19 @@ public class ProviderService {
     public void addProvider(){
     }
 
-    public void updateProvider(Integer id, Provider provider){
-        Provider oldProvider=providerRepository.getProvidersById(id);
-        if(oldProvider==null){
-            throw new ApiException("Provider ID Not found");
-        }
-
-        oldProvider.setAddress(provider.getAddress());
-        oldProvider.setField(provider.getField());
-        oldProvider.setBusinessNumber(provider.getBusinessNumber());
-        oldProvider.setOffers(provider.getOffers());
-        oldProvider.setServices(provider.getServices());
-        oldProvider.setCompanyName(provider.getCompanyName());
-        oldProvider.setProducts(provider.getProducts());
-
-    }
+//    public void updateProvider(Integer id, Provider provider){
+//        Provider oldProvider=providerRepository.getProvidersById(id);
+//        if(oldProvider==null){
+//            throw new ApiException("Provider ID Not found");
+//        }
+//
+//        oldProvider.setAddress(provider.getAddress());
+//        oldProvider.setField(provider.getField());
+//        oldProvider.setBusinessNumber(provider.getBusinessNumber());
+//        oldProvider.setOffers(provider.getOffers());
+//        oldProvider.setServices(provider.getServices());
+//        oldProvider.setCompanyName(provider.getCompanyName());
+//        oldProvider.setProducts(provider.getProducts());
+//
+//    }
 }

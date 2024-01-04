@@ -20,7 +20,6 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
     private String serviceName;
 
     private String serviceType;
@@ -29,15 +28,15 @@ public class Service {
 
     private double price;
 
-    @ManyToOne
-    @JoinColumn(name = "provider_id" , referencedColumnName = "id")
-    @JsonIgnore
-    private Provider provider;
-
-    @ManyToOne
-    @JoinColumn(name = "order_id" , referencedColumnName = "id")
-    @JsonIgnore
-    private Order order;
+//    @ManyToOne
+//    @JoinColumn(name = "provider_id" , referencedColumnName = "id")
+//    @JsonIgnore
+//    private Provider provider;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "order_id" , referencedColumnName = "id")
+//    @JsonIgnore
+//    private Order order;
 
 
 }
