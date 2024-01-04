@@ -39,7 +39,9 @@ public class ProviderService {
         oldProvider.setField(provider.getField());
         oldProvider.setBusinessNumber(provider.getBusinessNumber());
         oldProvider.setOffers(provider.getOffers());
-        o
+        oldProvider.setServices(provider.getServices());
+        oldProvider.setCompanyName(provider.getCompanyName());
+        oldProvider.setProducts(provider.getProducts());
 
     }
 }
