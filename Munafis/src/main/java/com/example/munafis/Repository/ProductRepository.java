@@ -1,4 +1,4 @@
 package com.example.munafis.Repository;
 
-public interface CompanyRepository {
+public interface ProductRepository {
 }
