@@ -49,5 +49,10 @@ public class RFP {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "rfp")
     private Set<Offers> offersSet;
 
+    @ManyToOne
+    @JoinColumn(name = "competition_id" , referencedColumnName = "id")
+    @JsonIgnore
+    private Competition competition;
+
 
 }

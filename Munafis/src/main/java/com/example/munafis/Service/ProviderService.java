@@ -16,18 +16,14 @@ public class ProviderService {
 
     private final ProviderRepository providerRepository;
 
-
-
     public List getAllProviders(){
         return providerRepository.findAll();
     }
 
 
-
     //Register
     public void addProvider(){
     }
-
 
     public void updateProvider(Integer id, Provider provider){
         Provider oldProvider=providerRepository.getProvidersById(id);
@@ -39,7 +35,5 @@ public class ProviderService {
         oldProvider.setField(provider.getField());
         oldProvider.setBusinessNumber(provider.getBusinessNumber());
         oldProvider.setOffers(provider.getOffers());
-        o
-
     }
 }
