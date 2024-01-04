@@ -1,6 +1,5 @@
 package com.example.munafis.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
@@ -29,7 +28,6 @@ public class Company {
     private String username;
     @Column
     @NotNull(message = "Password cannot be null")
-    @Min(value = 6,message = "password must be at least 6 characters")
     private String password;
     @Column(columnDefinition = "varchar(50) not null unique")
     @Email(message = "Must be a valid email")
@@ -49,10 +47,8 @@ public class Company {
     private String role;
 
 
-    @ManyToOne
-    @JoinColumn(name = "orderr_id" , referencedColumnName = "id")
-    @JsonIgnore
-    private Orderr orderr;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "company")
+    private Set<Order> orders;
 
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "company")

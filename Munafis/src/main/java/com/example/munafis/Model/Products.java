@@ -32,9 +32,9 @@ public class Products {
     private Provider provider;
 
     @ManyToOne
-    @JoinColumn(name = "orderr_id" , referencedColumnName = "id")
+    @JoinColumn(name = "order_id" , referencedColumnName = "id")
     @JsonIgnore
-    private Orderr orderr;
+    private Order order;
 
 
 

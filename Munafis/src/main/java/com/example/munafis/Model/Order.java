@@ -14,31 +14,33 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Orderr {
+public class Order {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private double price;
+    private double totalPrice;
 
 
     private String status;
 
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "orderr")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
     private Set<Service> services;
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "orderr")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
     private Set<Products> products;
 
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "orderr")
-    private Set<Company> companies;
+    @ManyToOne
+    @JoinColumn(name = "company_id",referencedColumnName = "id")
+    @JsonIgnore
+    private Company company;
 
 
 

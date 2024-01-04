@@ -35,6 +35,8 @@ public class RFP {
 
     private String serviceDetails;
 
+    private boolean status;
+
     private String title;
     private LocalDate timeLeft;
 
