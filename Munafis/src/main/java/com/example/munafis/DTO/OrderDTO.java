@@ -12,5 +12,6 @@ import lombok.Data;
 public class OrderDTO {
 
     private Integer id;
+    private String changed;
     
 }
