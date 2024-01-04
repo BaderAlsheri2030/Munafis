@@ -2,6 +2,7 @@ package com.example.munafis.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class ProductsDetails {
     private Integer id;
 
 
+    @Column(columnDefinition = "int not null")
     private Integer quantity;
 
     @OneToOne

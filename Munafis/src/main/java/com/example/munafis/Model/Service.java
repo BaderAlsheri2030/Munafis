@@ -3,6 +3,7 @@ package com.example.munafis.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,13 +21,13 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
+    @Column(columnDefinition = "varchar(225) not null")
     private String serviceName;
-
+    @Column(columnDefinition = "varchar(225) not null")
     private String serviceType;
-
+    @Column(columnDefinition = "varchar(225) not null")
     private String serviceDetails;
-
+    @Column(columnDefinition = "double not null")
     private double price;
 
     @ManyToOne

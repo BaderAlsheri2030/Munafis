@@ -24,6 +24,7 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+
     @Column(columnDefinition = "varchar(50) not null unique")
     @NotNull(message = "UserName cannot be null")
     private String username;

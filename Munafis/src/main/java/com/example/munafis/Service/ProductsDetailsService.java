@@ -1,8 +1,10 @@
 package com.example.munafis.Service;
 
 
+import com.example.munafis.API.ApiException;
 import com.example.munafis.DTO.ProductDetalisDTO;
 import com.example.munafis.Model.Products;
+import com.example.munafis.Model.ProductsDetails;
 import com.example.munafis.Repository.ProductRepository;
 import com.example.munafis.Repository.ProductsDetailsRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +23,20 @@ public class ProductsDetailsService {
 
 
     public List getAllProductsDetails(){
+
         return  productsDetailsRepository.findAll();
     }
+
 
     public void addProductsDetails(ProductDetalisDTO productDetalisDTO){
         Products products= productRepository.findProductsById(productDetalisDTO.getProduct_id());
 
-
+        if(products==null){
+            throw new ApiException("Product id not found");
+        }
+        ProductsDetails productsDetails = new ProductsDetails(null,productDetalisDTO.getQuantity(),products);
+        productsDetailsRepository.save(productsDetails);
     }
+
+
 }
