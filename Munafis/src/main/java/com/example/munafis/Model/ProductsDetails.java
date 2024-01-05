@@ -19,10 +19,9 @@ public class ProductsDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-
     @Column(columnDefinition = "int not null")
     private Integer quantity;
+
 
     @OneToOne
     @MapsId

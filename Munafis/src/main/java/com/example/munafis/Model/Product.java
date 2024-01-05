@@ -19,13 +19,12 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-
     @Column(columnDefinition = "varchar(225) not null")
     private String name;
-
     @Column(columnDefinition = "double not null")
     private double price;
+
+
 
     @ManyToOne
     @JoinColumn(name = "provider_id" , referencedColumnName = "id")

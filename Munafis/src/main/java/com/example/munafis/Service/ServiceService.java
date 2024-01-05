@@ -59,6 +59,24 @@ public class ServiceService {
         }
         serviceRepository.delete(service);
     }
+
+
+    //All
+    public List getAllByOrderByPrice(){
+        List<Service> services =serviceRepository.findAllByOrderByPrice();
+        if(services==null){
+            throw new ApiException("no services");
+        }
+        return services;
+    }
+
+    public List getServicesByName(String name){
+        List<Service> services =serviceRepository.findServicesByServiceName(name);
+        if(services.isEmpty()){
+            throw new ApiException("no services same this name");
+        }
+        return services;
+    }
 }
 
 

@@ -26,7 +26,6 @@ public class Company {
     @Column(columnDefinition = "varchar(50) not null unique")
     @NotNull(message = "UserName cannot be null")
     private String username;
-
     @NotNull(message = "Password cannot be null")
     private String password;
     @Column(columnDefinition = "varchar(50) not null unique")
