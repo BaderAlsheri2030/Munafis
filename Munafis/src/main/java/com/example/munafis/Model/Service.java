@@ -30,6 +30,7 @@ public class Service {
      @Column(columnDefinition = "double not null")
     private double price;
 
+
     @ManyToOne
     @JoinColumn(name = "provider_id" , referencedColumnName = "id")
     @JsonIgnore
