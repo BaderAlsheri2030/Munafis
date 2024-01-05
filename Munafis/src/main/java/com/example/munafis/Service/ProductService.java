@@ -2,7 +2,7 @@ package com.example.munafis.Service;
 
 import com.example.munafis.API.ApiException;
 import com.example.munafis.DTO.ProductDTO;
-import com.example.munafis.Model.Products;
+import com.example.munafis.Model.Product;
 import com.example.munafis.Model.Provider;
 import com.example.munafis.Repository.ProductRepository;
 import com.example.munafis.Repository.ProviderRepository;
@@ -19,23 +19,43 @@ public class ProductService {
     private final ProviderRepository providerRepository;
 
 
+    //ALL
     public List getAllProducts(){
+
         return productRepository.findAll();
     }
 
-//    public void addProduct(ProductDTO productDTO){
-//        Provider provider = providerRepository.getProvidersById(productDTO.getProvider_id());
-//        if(provider==null){
-//            throw new ApiException("provider Id not found");
-//        }
+
+
+    //Only provider
+//    public List getMyProducts(){
 //
-//        Products products = new Products(null,productDTO.getName(),productDTO.getPrice(),provider,null,null);
-//        productRepository.save(products);
 //    }
 
+
+
+
+
+
+
+    //Only provider
+    public void addProduct(ProductDTO productDTO){
+        Provider provider = providerRepository.getProvidersById(productDTO.getProvider_id());
+        if(provider==null){
+            throw new ApiException("provider Id not found");
+        }
+
+        Product product = new Product(null,productDTO.getName(),productDTO.getPrice(),provider,null,null);
+        productRepository.save(product);
+    }
+
+
+
+
+    //Only provider
     public void updateProduct(Integer id,ProductDTO productDTO){
 
-        Products oldProduct = productRepository.findProductsById(id);
+        Product oldProduct = productRepository.findProductsById(id);
         if(oldProduct==null){
             throw new ApiException("Product Id not found");
         }
@@ -45,5 +65,16 @@ public class ProductService {
         productRepository.save(oldProduct);
     }
 
+
+
+
+    //Only provider
+    public void deleteProduct(Integer id){
+        Product product=productRepository.findProductsById(id);
+        if(product==null){
+            throw new ApiException("Product Id not found");
+        }
+        productRepository.delete(product);
+    }
 
 }

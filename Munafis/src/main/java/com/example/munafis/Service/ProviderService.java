@@ -22,22 +22,40 @@ public class ProviderService {
 
 
     //Register
-    public void addProvider(){
+    public void addProvider(Provider provider){
+
+        providerRepository.save(provider);
     }
 
-//    public void updateProvider(Integer id, Provider provider){
-//        Provider oldProvider=providerRepository.getProvidersById(id);
-//        if(oldProvider==null){
-//            throw new ApiException("Provider ID Not found");
-//        }
-//
-//        oldProvider.setAddress(provider.getAddress());
-//        oldProvider.setField(provider.getField());
-//        oldProvider.setBusinessNumber(provider.getBusinessNumber());
-//        oldProvider.setOffers(provider.getOffers());
-//        oldProvider.setServices(provider.getServices());
-//        oldProvider.setCompanyName(provider.getCompanyName());
-//        oldProvider.setProducts(provider.getProducts());
-//
-//    }
+
+
+    public void updateProvider(Integer id, Provider provider){
+        Provider oldProvider=providerRepository.getProvidersById(id);
+        if(oldProvider==null){
+            throw new ApiException("Provider id not found");
+        }
+
+        oldProvider.setAddress(provider.getAddress());
+        oldProvider.setField(provider.getField());
+        oldProvider.setBusinessNumber(provider.getBusinessNumber());
+        oldProvider.setOffers(provider.getOffers());
+        oldProvider.setServices(provider.getServices());
+        oldProvider.setCompanyName(provider.getCompanyName());
+        oldProvider.setProducts(provider.getProducts());
+
+        providerRepository.save(oldProvider);
+
+    }
+
+
+    public void deleteProvider(Integer id){
+        Provider provider=providerRepository.getProvidersById(id);
+
+        if(provider==null){
+            throw new ApiException("Provider id not found");
+        }
+        providerRepository.delete(provider);
+    }
+
+
 }

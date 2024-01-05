@@ -31,15 +31,15 @@ public class Provider {
     private String field;
 
 
-//    @OneToMany(cascade = CascadeType.ALL,mappedBy = "provider")
-//    private Set<Service> services;
-//
-//
-//
-//    @OneToMany(cascade = CascadeType.ALL,mappedBy = "provider")
-//    private Set<Products> products;
-//
-//
-//    @OneToMany(cascade = CascadeType.ALL,mappedBy = "provider")
-//    private Set<Offers> offers;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "provider")
+    private Set<Service> services;
+
+
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "provider")
+    private Set<Product> products;
+
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "provider")
+    private Set<Offers> offers;
 }

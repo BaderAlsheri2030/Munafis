@@ -20,6 +20,6 @@ public class Competition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//    @OneToMany(cascade = CascadeType.ALL,mappedBy = "competition")
-//    private Set<RFP> rfps;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "competition")
+    private Set<RFP> rfps;
 }
