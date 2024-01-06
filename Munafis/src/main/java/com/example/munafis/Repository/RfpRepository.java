@@ -1,10 +1,13 @@
 package com.example.munafis.Repository;
 
 
-import com.example.munafis.Model.Offers;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import com.example.munafis.Model.Rfp;
+
+
 
 @Repository
-public interface OfferRepository extends JpaRepository<Offers,Integer> {
+public interface RfpRepository extends JpaRepository<Rfp,Integer> {
+    Rfp findRfpById(Integer id);
 }

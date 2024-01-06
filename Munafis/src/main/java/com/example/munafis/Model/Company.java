@@ -51,7 +51,7 @@ public class Company {
 
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "company")
-    private Set<RFP> rfps;
+    private Set<Rfp> rfps;
 
 
 }

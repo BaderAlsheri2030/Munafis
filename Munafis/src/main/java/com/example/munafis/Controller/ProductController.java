@@ -2,11 +2,14 @@ package com.example.munafis.Controller;
 
 
 import com.example.munafis.DTO.ProductDTO;
+import com.example.munafis.Model.Product;
 import com.example.munafis.Service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -50,5 +53,39 @@ public class ProductController {
         productService.deleteProduct(id);
         return  ResponseEntity.status(200).body("product deleted");
     }
+
+
+
+
+    //Only provider
+    @GetMapping("/getProductInfo/{id}")
+    public ResponseEntity getProductInfo(@PathVariable Integer id){
+       Product product = productService.displayProductInfo(id);
+        return  ResponseEntity.status(200).body(product);
+
+    }
+
+    @GetMapping("/getAllByOrderByPrice")
+    public ResponseEntity getAllByOrderByPrice(){
+        List<Product> products = productService.getAllByOrderByPrice();
+        return  ResponseEntity.status(200).body(products);
+    }
+
+
+
+
+    @GetMapping("/getProductsByName/{name}")
+    public ResponseEntity getProductsByName(@PathVariable String name){
+        List<Product> products = productService.getProductsByName(name);
+        return  ResponseEntity.status(200).body(products);
+    }
+
+
+
+//ALL
+//    @GetMapping("/getAllProductsByProvider/{companyName}")
+//    private ResponseEntity getAllProductsByProvider(@PathVariable String companyName){
+//        return ResponseEntity.status(200).body(productService.getProductsByCompanyName(companyName));
+//    }
 
 }

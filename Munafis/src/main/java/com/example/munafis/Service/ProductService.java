@@ -33,14 +33,9 @@ public class ProductService {
 //    }
 
 
-
-
-
-
-
     //Only provider
     public void addProduct(ProductDTO productDTO){
-        Provider provider = providerRepository.getProvidersById(productDTO.getProvider_id());
+        Provider provider = providerRepository.findProviderById(productDTO.getProvider_id());
         if(provider==null){
             throw new ApiException("provider Id not found");
         }
@@ -72,9 +67,46 @@ public class ProductService {
     public void deleteProduct(Integer id){
         Product product=productRepository.findProductsById(id);
         if(product==null){
-            throw new ApiException("Product Id not found");
+            throw new ApiException("product id  not found");
         }
         productRepository.delete(product);
     }
+
+
+
+    //ALL
+    public List getProductsByName(String name){
+        List<Product> products =productRepository.findProductsByName(name);
+        if(products.isEmpty()){
+            throw new ApiException("no products same this name");
+        }
+        return products;
+    }
+
+
+
+    //All
+    public Product displayProductInfo(Integer id){
+        Product product=productRepository.findProductsById(id);
+        if(product==null){
+            throw new ApiException("product id not found");
+        }
+        return product;
+    }
+
+
+
+    //All
+    public List getAllByOrderByPrice(){
+        List<Product> products =productRepository.findAllByOrderByPrice();
+        if(products==null){
+            throw new ApiException("no products");
+        }
+        return products;
+    }
+
+
+
+
 
 }

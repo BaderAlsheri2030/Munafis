@@ -11,16 +11,17 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.Set;
 
+
 @AllArgsConstructor
-@Setter
-@Getter
 @NoArgsConstructor
 @Entity
-public class RFP {
-
+@Setter
+@Getter
+public class Rfp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(columnDefinition = "varchar(200) not null")
     private String description;
     @Column(columnDefinition = "varchar(50) not null")
@@ -34,17 +35,15 @@ public class RFP {
     private String serviceDetails;
     @Column(columnDefinition = "varchar(50) not null")
     private String title;
+    @Column
+    private boolean isComplete;
     private LocalDate timeLeft;
-
 
     @ManyToOne
     @JoinColumn(name = "company_id" , referencedColumnName = "id")
     @JsonIgnore
     private Company company;
 
-
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "rfp")
-    private Set<Offers> offersSet;
 
     @ManyToOne
     @JoinColumn(name = "competition_id" , referencedColumnName = "id")
@@ -53,3 +52,54 @@ public class RFP {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Integer id;
+//    @Column(columnDefinition = "varchar(200) not null")
+//    private String description;
+//    @Column(columnDefinition = "varchar(50) not null")
+//    private String referenceNumber;
+//    @Column(columnDefinition = "varchar(50) not null")
+//    private String competitionType;
+//    private LocalDate deadLine;
+//    @Column(columnDefinition = "int not null")
+//    private Integer contractLength;
+//    @Column(columnDefinition = "varchar(50) not null")
+//    private String serviceDetails;
+//    @Column(columnDefinition = "varchar(50) not null")
+//    private String title;
+//    private LocalDate timeLeft;
+//
+//
+//    @ManyToOne
+//    @JoinColumn(name = "company_id" , referencedColumnName = "id")
+//    @JsonIgnore
+//    private Company company;
+//
+//
+//    @OneToMany(cascade = CascadeType.ALL,mappedBy = "rfp")
+//    private Set<Offers> offersSet;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "competition_id" , referencedColumnName = "id")
+//    @JsonIgnore
+//    private Competition competition;
+
+
+

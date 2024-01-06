@@ -21,5 +21,5 @@ public class Competition {
     private Integer id;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "competition")
-    private Set<RFP> rfps;
+    private Set<Rfp> rfps;
 }

@@ -60,5 +60,5 @@ public class Provider {
 
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "provider")
-    private Set<Offers> offers;
+    private Set<Offer> offers;
 }

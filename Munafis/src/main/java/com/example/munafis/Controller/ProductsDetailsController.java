@@ -6,10 +6,7 @@ import com.example.munafis.Service.ProductsDetailsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +26,13 @@ public class ProductsDetailsController {
 
         productsDetailsService.addProductsDetails(productDetalisDTO);
         return ResponseEntity.status(200).body("Products Details added");
+    }
+
+
+    //Only provider
+    @PutMapping("/addStock/{provider_id}/{product_id}/{quantity}")
+    public ResponseEntity addStock(@PathVariable Integer provider_id,@PathVariable Integer product_id, @PathVariable Integer quantity ){
+        productsDetailsService.addStock(provider_id,product_id,quantity);
+        return ResponseEntity.status(200).body("Stock added successfully");
     }
 }

@@ -10,21 +10,21 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 public class RfpDTO {
-
-    @NotNull(message = "competition type cannot be null")
-    private String competition_type;
+    private Integer company_id;
+    private Integer competition_id;
     private Integer contract_length;
     private LocalDate dead_line;
+    private boolean isComplete;
+    private LocalDate time_left;
+    @NotNull(message = "competition type cannot be null")
+    private String competition_type;
     @NotNull(message = "description cannot be null")
     private String description;
     @NotNull(message = "reference number cannot be null")
     private String reference_number;
     @NotNull(message = "service details cannot be null")
     private String service_details;
-    private LocalDate time_left;
     @NotNull(message = "title cannot be null")
     private String title;
-    private Integer company_id;
-    private Integer competition_id;
 
 }

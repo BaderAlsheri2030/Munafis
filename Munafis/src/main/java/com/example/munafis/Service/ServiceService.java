@@ -29,7 +29,7 @@ public class ServiceService {
     }
 
     public void addService(ServiceDTO serviceDTO) {
-        Provider provider = providerRepository.getProvidersById(serviceDTO.getProvider_id());
+        Provider provider = providerRepository.findProviderById(serviceDTO.getProvider_id());
         if (provider == null) {
             throw new ApiException("provider Id not found");
         }
