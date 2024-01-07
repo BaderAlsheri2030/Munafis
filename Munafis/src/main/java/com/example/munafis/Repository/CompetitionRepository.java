@@ -5,5 +5,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CompetitionRepository extends JpaRepository<Competition,Integer> {
     Competition findCompetitionById(Integer id);
+
 }
 

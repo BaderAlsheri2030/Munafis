@@ -12,8 +12,6 @@ public class ServiceDTO {
 
 
     private Integer provider_id;
-
-
     @NotNull(message = "service name cannot be null")
     private String serviceName;
     @NotNull(message = "service type cannot be null")

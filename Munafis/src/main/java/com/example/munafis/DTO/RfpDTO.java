@@ -15,6 +15,7 @@ public class RfpDTO {
     private Integer contract_length;
     private LocalDate dead_line;
     private boolean isComplete;
+    //last time to create offers
     private LocalDate time_left;
     @NotNull(message = "competition type cannot be null")
     private String competition_type;
@@ -26,5 +27,9 @@ public class RfpDTO {
     private String service_details;
     @NotNull(message = "title cannot be null")
     private String title;
+    @NotNull(message = "company name cannot be null")
+    private String name;
+    private String location;
+    private LocalDate startDate;
 
 }

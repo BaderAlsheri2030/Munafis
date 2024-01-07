@@ -1,6 +1,5 @@
 package com.example.munafis.Model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,25 +8,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
-@Setter
-@Getter
 @NoArgsConstructor
 @Entity
+@Setter
+@Getter
 public class Service {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
     @Column(columnDefinition = "varchar(225) not null")
     private String serviceName;
-     @Column(columnDefinition = "varchar(225) not null")
+    @Column(columnDefinition = "varchar(225) not null")
     private String serviceType;
-     @Column(columnDefinition = "varchar(225) not null")
+    @Column(columnDefinition = "varchar(225) not null")
     private String serviceDetails;
-     @Column(columnDefinition = "double not null")
+    @Column(columnDefinition = "double not null")
     private double price;
 
 
@@ -40,6 +36,4 @@ public class Service {
     @JoinColumn(name = "order_id" , referencedColumnName = "id")
     @JsonIgnore
     private Orderr order;
-
-
 }

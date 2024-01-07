@@ -1,10 +1,8 @@
 package com.example.munafis.Model;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,13 +11,11 @@ import lombok.Setter;
 import java.util.Set;
 
 @AllArgsConstructor
-@Setter
-@Getter
 @NoArgsConstructor
 @Entity
+@Setter
+@Getter
 public class Provider {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -52,7 +48,6 @@ public class Provider {
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "provider")
     private Set<Service> services;
-
 
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "provider")

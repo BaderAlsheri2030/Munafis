@@ -11,7 +11,6 @@ import lombok.Data;
 
 public class ProductDTO {
 
-
     private Integer provider_id;
     @NotNull(message = "price cannot be null")
     private String name;

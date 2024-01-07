@@ -30,7 +30,7 @@ public class ProductsDetailsService {
 
      //Only provider
     public void addProductsDetails(ProductDetalisDTO productDetalisDTO){
-        Product product= productRepository.findProductsById(productDetalisDTO.getProduct_id());
+        Product product= productRepository.findProductById(productDetalisDTO.getProduct_id());
 
         if(product==null){
             throw new ApiException("Product id not found");
@@ -42,7 +42,7 @@ public class ProductsDetailsService {
 
     public void updateProductsDetails(Integer id,ProductDetalisDTO productDetalisDTO){
 
-        Product product = productRepository.findProductsById(productDetalisDTO.getProduct_id());
+        Product product = productRepository.findProductById(productDetalisDTO.getProduct_id());
         if(product==null){
             throw new ApiException("Product id not found");
         }
@@ -60,7 +60,7 @@ public class ProductsDetailsService {
 
     public void addStock(Integer provider_id, Integer product_id , Integer quantity){
         Provider provider= providerRepository.findProviderById(provider_id);
-        Product product = productRepository.findProductsById(product_id);
+        Product product = productRepository.findProductById(product_id);
 
         if(provider==null){
             throw new ApiException("provider id not found");
@@ -68,9 +68,7 @@ public class ProductsDetailsService {
         if(product==null){
             throw new ApiException("product id not found");
         }
-
         product.setStock(product.getStock()+quantity);
-//        product.getProductsDetails().setQuantity(quantity+product.getProductsDetails().getQuantity());
         productRepository.save(product);
     }
 

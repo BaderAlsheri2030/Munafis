@@ -1,10 +1,7 @@
 package com.example.munafis.Controller;
 
 
-import com.example.munafis.Model.Orderr;
-import com.example.munafis.Model.Product;
-import com.example.munafis.Model.Provider;
-import com.example.munafis.Model.Service;
+import com.example.munafis.Model.*;
 import com.example.munafis.Service.ProviderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -67,12 +64,22 @@ public class ProviderController {
         return ResponseEntity.status(200).body(services);
     }
 
-
-
-    @GetMapping("/getOrderAllByStatus/{status}")
-    public ResponseEntity getOrderAllByStatus(@PathVariable String status){
-        List<Orderr> orders =providerService.getOrderAllByStatus(status);
-        return ResponseEntity.status(200).body(orders);
+    @GetMapping("/viewMyAcceptedOffers/{provider_id}")
+    public ResponseEntity viewMyAcceptedOffers(@PathVariable Integer provider_id) {
+        List<Offer> offers =providerService.viewMyAcceptedOffers(provider_id);
+        return ResponseEntity.status(200).body(offers);
     }
 
+
+    @GetMapping("/viewMyPendingOffers/{provider_id}")
+    public ResponseEntity viewMyPendingOffers(@PathVariable Integer provider_id) {
+        List<Offer> offers =providerService.viewMyPendingOffers(provider_id);
+        return ResponseEntity.status(200).body(offers);
+    }
+
+    @GetMapping("/viewMyRejectedOffers/{provider_id}")
+    public ResponseEntity viewMyRejectedOffers(@PathVariable Integer provider_id) {
+        List<Offer> offers =providerService.viewMyRejectedOffers(provider_id);
+        return ResponseEntity.status(200).body(offers);
+    }
 }

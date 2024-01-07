@@ -21,11 +21,10 @@ public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-//
     @Column(columnDefinition = "varchar(50) not null unique")
     @NotNull(message = "UserName cannot be null")
     private String username;
+    @Column(columnDefinition = "varchar(50) not null")
     @NotNull(message = "Password cannot be null")
     private String password;
     @Column(columnDefinition = "varchar(50) not null unique")
@@ -41,8 +40,8 @@ public class Company {
     @Column(columnDefinition = "varchar(50) not null")
     @NotNull(message = "address cannot be null")
     private String address;
-//    @Column(columnDefinition = "varchar(8) check(role = 'Company' or role='Provider')")
-//    @NotNull(message = "role cannot be null")
+    //    @Column(columnDefinition = "varchar(8) not null check(role = 'Company' or role='Provider')")
+    @NotNull(message = "role cannot be null")
     private String role;
 
 
@@ -52,6 +51,5 @@ public class Company {
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "company")
     private Set<Rfp> rfps;
-
 
 }

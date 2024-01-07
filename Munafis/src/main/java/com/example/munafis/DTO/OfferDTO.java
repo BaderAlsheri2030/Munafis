@@ -18,4 +18,5 @@ public class OfferDTO {
     @Pattern(regexp = "^(accepted|rejected|pending)$")
     private String status;
 
+
 }

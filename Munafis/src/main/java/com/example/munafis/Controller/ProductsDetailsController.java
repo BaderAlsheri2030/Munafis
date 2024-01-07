@@ -28,6 +28,11 @@ public class ProductsDetailsController {
         return ResponseEntity.status(200).body("Products Details added");
     }
 
+    @PutMapping("/update")
+    public ResponseEntity updateProductsDetails(@Valid @RequestBody ProductDetalisDTO productDetalisDTO, @PathVariable Integer id ){
+      productsDetailsService.updateProductsDetails(id,productDetalisDTO);
+        return ResponseEntity.status(200).body("Products Details updated");
+    }
 
     //Only provider
     @PutMapping("/addStock/{provider_id}/{product_id}/{quantity}")

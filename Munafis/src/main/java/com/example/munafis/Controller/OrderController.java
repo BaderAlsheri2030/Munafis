@@ -28,4 +28,30 @@ public class OrderController {
         orderService.addOrder(orderDTO);
         return ResponseEntity.status(200).body("order added");
     }
+
+    @DeleteMapping("/update/{id}")
+    public ResponseEntity updateOrder(@Valid @RequestBody OrderDTO orderDTO,@PathVariable Integer id){
+        orderService.updateOrder(orderDTO,id);
+        return ResponseEntity.status(200).body("order updated");
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity deleteOrder(@PathVariable Integer id){
+        orderService.deleteOrder(id);
+        return ResponseEntity.status(200).body("order deleted");
+    }
+
+    @GetMapping("/invoice/{id}")
+    public ResponseEntity invoice(@PathVariable Integer id){
+
+        String invoice = orderService.invoice(id);
+        return ResponseEntity.status(200).body(invoice);
+    }
+
+    @PutMapping("/acceptOrder/{user_id}/{order_id}")
+    public ResponseEntity acceptOrder(@PathVariable Integer user_id, @PathVariable Integer order_id){
+        orderService.acceptOrder(user_id,order_id);
+        return ResponseEntity.status(200).body("order accepted");
+
+    }
 }

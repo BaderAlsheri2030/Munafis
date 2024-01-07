@@ -11,11 +11,12 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Integer> {
 
-    Product findProductsById(Integer id);
+
     Product findProductById(Integer id);
 
     List<Product>  findProductsByName(String name);
     List<Product> findAllByOrderByPrice();
+
 
 
 }

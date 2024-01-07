@@ -82,10 +82,5 @@ public class ProductController {
 
 
 
-//ALL
-//    @GetMapping("/getAllProductsByProvider/{companyName}")
-//    private ResponseEntity getAllProductsByProvider(@PathVariable String companyName){
-//        return ResponseEntity.status(200).body(productService.getProductsByCompanyName(companyName));
-//    }
 
 }

@@ -2,10 +2,7 @@ package com.example.munafis.Service;
 
 import com.example.munafis.API.ApiException;
 import com.example.munafis.DTO.OrderDTO;
-import com.example.munafis.Model.Company;
-import com.example.munafis.Model.Orderr;
-import com.example.munafis.Model.Product;
-import com.example.munafis.Model.ProductsDetails;
+import com.example.munafis.Model.*;
 import com.example.munafis.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +23,7 @@ public class OrderService {
     private final ServiceRepository serviceRepository;
     private final CompanyRepository companyRepository;
     private final ProductsDetailsRepository productsDetailsRepository;
+    private final AuthRepository authRepository;
 
 
     //Admin
@@ -66,8 +64,13 @@ public class OrderService {
             if (foundProduct == null) {
                 throw new ApiException("Product not found for id: " + product.getId());
             }
+            if(foundProduct.getStock() < productsDetails1.getQuantity()){
+                throw new ApiException("product is not available now");
+            }
+            foundProduct.setStock(foundProduct.getStock()-productsDetails1.getQuantity());
+            productsDetailsRepository.save(productsDetails1);
             price += product.getPrice() * productsDetails1.getQuantity();
-            ProductsDetails productsDetails2 = new ProductsDetails(null, productsDetails1.getQuantity(), null, foundProduct);
+            ProductsDetails productsDetails2 = new ProductsDetails(null, productsDetails1.getQuantity(), null, null);
             totalPriceProduct += price;
             productsDetailsRepository.save(productsDetails2);
             productsDetails.add(productsDetails2);
@@ -98,70 +101,78 @@ public class OrderService {
 
 
     }
+
+    public void updateOrder(OrderDTO orderDTO , Integer id){
+        Orderr order = orderRepository.findOrderrById(id);
+        if(order==null){
+            throw new ApiException("order not found");
+        }
+        if(!order.getStatus().equals("pending")){
+            throw new ApiException("th order cannot updated");
+        }
+
+        order.setServices(orderDTO.getServices());
+        order.setProductsDetails(orderDTO.getProductsDetails());
+        orderRepository.save(order);
+    }
+
+
+    public void deleteOrder(Integer id){
+        Orderr order = orderRepository.findOrderrById(id);
+        if(order==null){
+            throw new ApiException("order not found");
+        }
+        if(!order.getStatus().equals("pending")){
+            throw new ApiException("th order cannot deleted");
+        }
+        orderRepository.delete(order);
+    }
+
+    public String invoice(Integer order_id){
+        Orderr order = orderRepository.findOrderrById(order_id);
+        if(order==null){
+            throw new ApiException("order not found");
+        }
+        if(!order.getStatus().equals("accepted")){
+            throw new ApiException("invoice cannot be issued before the order is accepted");
+        }
+        List<ProductsDetails> productsDetails = new ArrayList<>(order.getProductsDetails());
+        List<com.example.munafis.Model.Service> serviceList = new ArrayList<>(order.getServices());
+        for (com.example.munafis.Model.Service service : order.getServices()){
+            serviceList.add(service);
+
+        }
+
+        for (ProductsDetails p : order.getProductsDetails()){
+            productsDetails.add(p);
+        }
+
+        return "invoice details " + '\n' +
+                "Company Name: " + order.getCompany().getCompanyName()  + '\n' +
+                "Total Price: " + order.getTotalPrice() +   '\n' +
+                "Services: " + serviceList  +   '\n' +
+                 "Products: " + productsDetails + '\n';
+
+    }
+
+    public void acceptOrder(Integer user_id, Integer order_id){
+        User user = authRepository.findUserById(user_id);
+        Orderr order = orderRepository.findOrderrById(order_id);
+        if(user==null){
+            throw new ApiException("user not found");
+        }
+        if(order==null){
+            throw new ApiException("order not found");
+        }
+        if(!user.getRole().equals("Admin")){
+            throw new ApiException("not authorised");
+        }
+        else {
+            order.setStatus("accepted");
+            orderRepository.save(order);
+        }
+    }
+
+
 }
-//
-////
-////        List<Product> productList = new ArrayList<>();
-////        List<com.example.munafis.Model.Service> serviceList =new ArrayList<>();
-//
-//        Set<Product> products = new HashSet<>();
-//        Set<com.example.munafis.Model.Service> services = new HashSet<>();
-//
-//        Integer x =0;
-//        Integer y =0;
-//        for (Product p : orderDTO.getProducts()){
-//            products.add(p);
-//           x= p.getId();
-//        }
-//        for (com.example.munafis.Model.Service s : orderDTO.getServices()){
-//            services.add(s);
-//            y= s.getId();
-//        }
-//
-//
-////        for (int i = 0; i < orderDTO.getProducts().size(); i++) {
-////        productList.add(orderDTO.getProducts().get(i));
-////            products.add(productList.get(i));
-////        }
-////
-////        for (int i = 0; i <orderDTO.getServices().size(); i++) {
-////            serviceList.add(orderDTO.getServices().get(i));
-////            services.add(serviceList.get(i));
-////        }
-//
-//
-//
-//        Product product = productRepository.findProductsById(x);
-//        com.example.munafis.Model.Service service = serviceRepository.findServiceById(y);
-//        Company company = companyRepository.findCompanyById(orderDTO.getCompany_id());
-//
-//        if (product == null) {
-//            throw new ApiException("product not found");
-//        }
-//        if (service == null) {
-//            throw new ApiException("service not found");
-//        }
-//        if (company == null) {
-//            throw new ApiException("company not found");
-//        }
-//        double totalPriceProduct = 0;
-//        double totalPriceService = 0;
-//        double totalPrice = 0;
-//
-//        if (product.getProductsDetails().getQuantity() <= 0) {
-//            throw new ApiException("product is not available now");
-//        } else {
-//
-//            //Calculate the total price
-//            totalPriceProduct = product.getPrice() * orderDTO.getQuantity();
-//            totalPriceService = service.getPrice();
-//            totalPrice = totalPriceProduct + totalPriceService;
-//
-//            //
-//            product.getProductsDetails().setQuantity(product.getProductsDetails().getQuantity() - orderDTO.getQuantity());
-//            productsDetailsRepository.save(product.getProductsDetails());
-//
-//            Orderr orderr = new Orderr(null, orderDTO.getStatus(), totalPrice, services, products, company);
-//            orderRepository.save(orderr);
-//        }
-//    }
+

@@ -19,18 +19,13 @@ import java.util.Set;
 @Data
 public class OrderDTO {
 
-    private Integer id;
-    @Pattern(regexp = "^(accepted|rejected|completed)$")
+    @Pattern(regexp = "^(accepted|pending|completed)$")
     private String status;
-
     private double totalPrice;
-//    private Integer product_id;
-//    private Integer service_id;
-private Set<Service> services;
-private Set<ProductsDetails> productsDetails;
-
-//    private List<Service> services;
-//    private List<Product> products;
+    private Integer product_id;
+    private Integer service_id;
+    private Set<Service> services;
+    private Set<ProductsDetails> productsDetails;
     private Integer company_id;
 
 
