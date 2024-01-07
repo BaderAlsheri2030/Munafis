@@ -35,7 +35,7 @@ public class ProductsDetailsService {
         if(product==null){
             throw new ApiException("Product id not found");
         }
-        ProductsDetails productsDetails = new ProductsDetails(null,productDetalisDTO.getQuantity(),product);
+        ProductsDetails productsDetails = new ProductsDetails(null,productDetalisDTO.getQuantity(),null,null);
         productsDetailsRepository.save(productsDetails);
     }
 
@@ -69,7 +69,8 @@ public class ProductsDetailsService {
             throw new ApiException("product id not found");
         }
 
-        product.getProductsDetails().setQuantity(quantity+product.getProductsDetails().getQuantity());
+        product.setStock(product.getStock()+quantity);
+//        product.getProductsDetails().setQuantity(quantity+product.getProductsDetails().getQuantity());
         productRepository.save(product);
     }
 

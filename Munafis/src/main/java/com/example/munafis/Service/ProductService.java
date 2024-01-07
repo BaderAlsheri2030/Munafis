@@ -40,7 +40,7 @@ public class ProductService {
             throw new ApiException("provider Id not found");
         }
 
-        Product product = new Product(null,productDTO.getName(),productDTO.getPrice(),provider,null,null);
+        Product product = new Product(null,productDTO.getName(),productDTO.getStock(),productDTO.getPrice(),provider,null);
         productRepository.save(product);
     }
 

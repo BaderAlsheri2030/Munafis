@@ -22,10 +22,19 @@ public class ProductsDetails {
     @Column(columnDefinition = "int not null")
     private Integer quantity;
 
-
-    @OneToOne
-    @MapsId
+    @ManyToOne
+    @JoinColumn(name = "order_id" , referencedColumnName = "id")
     @JsonIgnore
+    private Orderr order;
+
+//
+//    @OneToOne
+//    @MapsId
+//    @JsonIgnore
+//    private Product product;
+@ManyToOne
+@JoinColumn(name = "product_id" , referencedColumnName = "id")
+@JsonIgnore
     private Product product;
 
 

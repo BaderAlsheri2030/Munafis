@@ -27,17 +27,16 @@ public class Orderr {
 
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
+    @OneToMany(cascade = CascadeType.MERGE,mappedBy = "order")
     private Set<Service> services;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
-    private Set<Product> products;
+    @OneToMany(cascade = CascadeType.MERGE,mappedBy = "order")
+    private Set<ProductsDetails> productsDetails;
+
+
 
 //    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
 //    private Set<Company> companies;
-
-
-
 
 //    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
 //    private Set<Service> services;
@@ -45,9 +44,8 @@ public class Orderr {
 //
 //    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
 //    private Set<Products> products;
-//
-//
-//
+
+
     @ManyToOne
     @JoinColumn(name = "company_id",referencedColumnName = "id")
     @JsonIgnore

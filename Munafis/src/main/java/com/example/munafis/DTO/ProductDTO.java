@@ -18,4 +18,5 @@ public class ProductDTO {
     @Positive(message = "price must be number")
     @NotNull(message = "price cannot be null")
     private double price;
+    private Integer stock;
 }
