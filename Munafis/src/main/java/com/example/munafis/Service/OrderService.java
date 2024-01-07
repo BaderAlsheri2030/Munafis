@@ -57,7 +57,7 @@ public class OrderService {
 
         for (ProductsDetails productsDetails1 : orderDTO.getProductsDetails()) {
 
-            Product product = productRepository.findProductById(productsDetails1.getProduct().getId());
+            Product product = productRepository.findProductById(productsDetails1.getId());
             if (product == null) {
                 throw new ApiException("product id not found");
             }
@@ -83,13 +83,17 @@ public class OrderService {
             serviceList.add(s);
         }
         totalPrice = totalPriceProduct + totalPriceService;
-        Orderr orderr = new Orderr(null, orderDTO.getStatus(), totalPrice, serviceList, productsDetails, company);
+        Orderr orderr = new Orderr(null, "pending", totalPrice, serviceList, productsDetails, company);
         orderRepository.save(orderr);
 
 
         for (ProductsDetails productsDetails1: orderr.getProductsDetails()){
             productsDetails1.setOrder(orderr);
             productsDetailsRepository.save(productsDetails1);
+        }
+        for(com.example.munafis.Model.Service service: orderr.getServices()){
+            service.setOrder(orderr);
+            serviceRepository.save(service);
         }
 
 
