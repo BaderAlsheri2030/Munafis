@@ -2,6 +2,7 @@ package com.example.munafis.Repository;
 
 
 import com.example.munafis.Model.Orderr;
+import com.example.munafis.Model.Service;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

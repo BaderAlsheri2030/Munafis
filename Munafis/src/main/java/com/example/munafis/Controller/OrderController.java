@@ -41,12 +41,12 @@ public class OrderController {
         return ResponseEntity.status(200).body("order deleted");
     }
 
-    @GetMapping("/invoice/{id}")
-    public ResponseEntity invoice(@PathVariable Integer id){
-
-        String invoice = orderService.invoice(id);
-        return ResponseEntity.status(200).body(invoice);
-    }
+//    @GetMapping("/invoice/{id}")
+//    public ResponseEntity invoice(@PathVariable Integer id){
+//
+//        String invoice = orderService.invoice(id);
+//        return ResponseEntity.status(200).body(invoice);
+//    }
 
     @PutMapping("/acceptOrder/{user_id}/{order_id}")
     public ResponseEntity acceptOrder(@PathVariable Integer user_id, @PathVariable Integer order_id){

@@ -3,10 +3,13 @@ package com.example.munafis.Controller;
 
 import com.example.munafis.DTO.ProductDTO;
 import com.example.munafis.Model.Product;
+import com.example.munafis.Model.Service;
+import com.example.munafis.Model.User;
 import com.example.munafis.Service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +29,13 @@ public class ProductController {
     public ResponseEntity getAllProducts(){
         return ResponseEntity.status(200).body(productService.getAllProducts());
 
+    }
+
+    //Only provider
+    @GetMapping("/Get-My-Products")
+    public ResponseEntity getMyProducts(@AuthenticationPrincipal User user){
+        List<Product> products = productService.getMyProducts(user.getId());
+        return ResponseEntity.status(200).body(products);
     }
 
 

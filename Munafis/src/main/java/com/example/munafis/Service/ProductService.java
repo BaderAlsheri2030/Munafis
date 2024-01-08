@@ -4,6 +4,8 @@ import com.example.munafis.API.ApiException;
 import com.example.munafis.DTO.ProductDTO;
 import com.example.munafis.Model.Product;
 import com.example.munafis.Model.Provider;
+import com.example.munafis.Model.User;
+import com.example.munafis.Repository.AuthRepository;
 import com.example.munafis.Repository.ProductRepository;
 import com.example.munafis.Repository.ProviderRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProviderRepository providerRepository;
+    private final AuthRepository authRepository;
 
 
     //ALL
@@ -32,6 +35,19 @@ public class ProductService {
 //
 //    }
 
+
+    public List getMyProducts(Integer user_id){
+        User user=authRepository.findUserById(user_id);
+        Provider provider = providerRepository.findProviderById(user.getProvider().getId());
+        List<Product> products = productRepository.findAllByProviderId(provider.getId());
+        if(!provider.getId().equals(user_id)){
+            throw new ApiException("cannot see this products");
+        }
+        if (products.isEmpty()){
+            throw new ApiException("products not found");
+        }
+        return products;
+    }
 
     //Only provider
     public void addProduct(ProductDTO productDTO){

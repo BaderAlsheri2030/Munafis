@@ -151,7 +151,7 @@ public class OrderService {
                 "Company Name: " + order.getCompany().getCompanyName()  + '\n' +
                 "Total Price: " + order.getTotalPrice() +   '\n' +
                 "Services: " + serviceList  +   '\n' +
-                 "Products: " + productsDetails + '\n';
+                "Products: " + productsDetails + '\n';
 
     }
 
@@ -175,4 +175,3 @@ public class OrderService {
 
 
 }
-

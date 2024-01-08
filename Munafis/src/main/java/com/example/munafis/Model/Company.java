@@ -1,5 +1,6 @@
 package com.example.munafis.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -21,16 +22,7 @@ public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(columnDefinition = "varchar(50) not null unique")
-    @NotNull(message = "UserName cannot be null")
-    private String username;
-    @Column(columnDefinition = "varchar(50) not null")
-    @NotNull(message = "Password cannot be null")
-    private String password;
-    @Column(columnDefinition = "varchar(50) not null unique")
-    @Email(message = "Must be a valid email")
-    @NotNull(message = "email cannot be null")
-    private String email;
+
     @Column(columnDefinition = "varchar(50) not null")
     @NotNull(message = "company name cannot be null")
     private String companyName;
@@ -40,9 +32,11 @@ public class Company {
     @Column(columnDefinition = "varchar(50) not null")
     @NotNull(message = "address cannot be null")
     private String address;
-    //    @Column(columnDefinition = "varchar(8) not null check(role = 'Company' or role='Provider')")
-    @NotNull(message = "role cannot be null")
-    private String role;
+
+    @OneToOne
+    @JoinColumn(name = "user_id",referencedColumnName = "id")
+    @JsonIgnore
+    private User user;
 
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "company")

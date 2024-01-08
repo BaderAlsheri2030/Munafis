@@ -2,25 +2,85 @@ package com.example.munafis.Model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class User {
+public class User implements UserDetails {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Pattern(regexp = "^(Admin|Company|Provider)$" , message = "Role must be in admin, Company or Provider only")
-    @Column(columnDefinition = "varchar(10) not null check (role='Admin' or role='Company' or role='Provider')")
+    @Column(columnDefinition = "varchar(50) not null unique")
+    @NotNull(message = "UserName cannot be null")
+    private String username;
+    @Column(columnDefinition = "varchar(50) not null")
+    @NotNull(message = "Password cannot be null")
+    private String password;
+    @Column(columnDefinition = "varchar(50) not null unique")
+    @Email(message = "Must be a valid email")
+    @NotNull(message = "email cannot be null")
+    private String email;
+    @Pattern(regexp = "^(Company|Provider)$" , message = "Role must be Company or Provider only")
+    @Column(columnDefinition = "varchar(10) not null check (role='Company' or role='Provider')")
     private String role;
+
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "user")
+    private Company company;
+
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "user")
+    private Provider provider;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority(this.role));
+
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

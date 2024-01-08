@@ -42,7 +42,7 @@ public class CompanyService {
         oldCompany.setBusinessNumber(company.getBusinessNumber());
         oldCompany.setOrders(company.getOrders());
         oldCompany.setCompanyName(company.getCompanyName());
-        oldCompany.setEmail(company.getEmail());
+
         oldCompany.setRfps(company.getRfps());
 
         companyRepository.save(oldCompany);
