@@ -4,7 +4,6 @@ import com.example.munafis.API.ApiException;
 import com.example.munafis.Model.User;
 import com.example.munafis.Repository.AuthRepository;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,11 +16,12 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-       User user  =authRepository.findUserByUsername(username);
+        User user  =authRepository.findUserByUsername(username);
         if (user == null){
             throw new ApiException("invalid username or password");
         }
         return user;
     }
 
-}
+    }
+

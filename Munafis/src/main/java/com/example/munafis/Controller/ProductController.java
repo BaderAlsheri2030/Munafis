@@ -3,7 +3,6 @@ package com.example.munafis.Controller;
 
 import com.example.munafis.DTO.ProductDTO;
 import com.example.munafis.Model.Product;
-import com.example.munafis.Model.Service;
 import com.example.munafis.Model.User;
 import com.example.munafis.Service.ProductService;
 import jakarta.validation.Valid;
@@ -31,27 +30,26 @@ public class ProductController {
 
     }
 
-    //Only provider
+
     @GetMapping("/Get-My-Products")
     public ResponseEntity getMyProducts(@AuthenticationPrincipal User user){
         List<Product> products = productService.getMyProducts(user.getId());
         return ResponseEntity.status(200).body(products);
     }
 
-
     //Only provider
     @PostMapping("/add")
-    public ResponseEntity addProduct(@Valid @RequestBody ProductDTO productDTO){
-        productService.addProduct(productDTO);
+    public ResponseEntity addProduct(@Valid @RequestBody ProductDTO productDTO, @AuthenticationPrincipal User user){
+        productService.addProduct(productDTO,user.getId());
         return  ResponseEntity.status(200).body("product added");
     }
 
 
     //Only provider
     @PutMapping("/update/{id}")
-    public ResponseEntity updateProduct(@PathVariable Integer id ,@Valid @RequestBody ProductDTO productDTO){
+    public ResponseEntity updateProduct(@PathVariable Integer id ,@Valid @RequestBody ProductDTO productDTO,@AuthenticationPrincipal User user){
 
-        productService.updateProduct(id,productDTO);
+        productService.updateProduct(id,productDTO,user.getId());
         return  ResponseEntity.status(200).body("product updated");
     }
 
@@ -59,8 +57,8 @@ public class ProductController {
 
     //Only provider
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteProduct(@PathVariable Integer id){
-        productService.deleteProduct(id);
+    public ResponseEntity deleteProduct(@PathVariable Integer id,@AuthenticationPrincipal User user){
+        productService.deleteProduct(id,user.getId());
         return  ResponseEntity.status(200).body("product deleted");
     }
 
@@ -75,6 +73,7 @@ public class ProductController {
 
     }
 
+    //provider?
     @GetMapping("/getAllByOrderByPrice")
     public ResponseEntity getAllByOrderByPrice(){
         List<Product> products = productService.getAllByOrderByPrice();
@@ -83,7 +82,7 @@ public class ProductController {
 
 
 
-
+    //permitAll
     @GetMapping("/getProductsByName/{name}")
     public ResponseEntity getProductsByName(@PathVariable String name){
         List<Product> products = productService.getProductsByName(name);
@@ -92,5 +91,10 @@ public class ProductController {
 
 
 
+
+    @GetMapping("/getAllProductsByProvider/{provider_name}")
+    private ResponseEntity getAllProductsByProvider(@PathVariable String provider_name){
+        return ResponseEntity.status(200).body(productService.getAllProductsByProvider(provider_name));
+    }
 
 }

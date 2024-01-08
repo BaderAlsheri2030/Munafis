@@ -2,10 +2,13 @@ package com.example.munafis.Service;
 
 
 import com.example.munafis.API.ApiException;
+import com.example.munafis.DTO.CompanyDTO;
+import com.example.munafis.DTO.ProviderDTO;
 import com.example.munafis.Model.*;
 import com.example.munafis.Model.Provider;
 import com.example.munafis.Repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ public class ProviderService {
     private final OffersRepository offersRepository;
     private final CompanyRepository companyRepository;
     private final RfpRepository rfpRepository;
+    private final AuthRepository authRepository;
 
     public List getAllProviders() {
         return providerRepository.findAll();
@@ -29,25 +33,37 @@ public class ProviderService {
 
 
     //Register
-    public void addProvider(Provider provider) {
+    public void register(ProviderDTO providerDTO ){
+        String hash = new BCryptPasswordEncoder().encode(providerDTO.getPassword());
+        providerDTO.setPassword(hash);
+        User user = new User(null,providerDTO.getUsername(),null,providerDTO.getEmail(),providerDTO.getRole(),null,null);
+
+
+        user.setRole("Provider");
+
+        Provider provider = new Provider(null, providerDTO.getCompanyName(), providerDTO.getBusinessNumber(), providerDTO.getAddress(), providerDTO.getField(), user,null,null,null);
+        authRepository.save(user);
         providerRepository.save(provider);
 
     }
 
 
-    public void updateProvider(Integer id, Provider provider) {
-        Provider oldProvider = providerRepository.findProviderById(id);
+    public void updateProvider(Integer user_id, Provider provider) {
+        User user = authRepository.findUserById(user_id);
+        Provider oldProvider = providerRepository.findProviderById(user.getProvider().getId());
         if (oldProvider == null) {
             throw new ApiException("Provider id not found");
+        }else if (!oldProvider.getId().equals(user.getProvider().getId())){
+            throw new ApiException("invalid");
         }
-
-        oldProvider.setAddress(provider.getAddress());
-        oldProvider.setField(provider.getField());
-        oldProvider.setBusinessNumber(provider.getBusinessNumber());
-        oldProvider.setOffers(provider.getOffers());
-        oldProvider.setServices(provider.getServices());
-        oldProvider.setCompanyName(provider.getCompanyName());
-        oldProvider.setProducts(provider.getProducts());
+//
+//        oldProvider.setAddress(provider.getAddress());
+//        oldProvider.setField(provider.getField());
+//        oldProvider.setBusinessNumber(provider.getBusinessNumber());
+//        oldProvider.setOffers(provider.getOffers());
+//        oldProvider.setServices(provider.getServices());
+//        oldProvider.setCompanyName(provider.getCompanyName());
+//        oldProvider.setProducts(provider.getProducts());
 
         providerRepository.save(oldProvider);
 
@@ -88,41 +104,47 @@ public class ProviderService {
         return provider.getServices();
     }
 
-    public List<Offer> viewMyAcceptedOffers(Integer provider_id) {
-
-        Provider provider = providerRepository.findProviderById(provider_id);
+    public List<Offer> viewMyAcceptedOffers(Integer user_id) {
+        User user = authRepository.findUserById(user_id);
+        Provider provider = providerRepository.findProviderById(user.getProvider().getId());
         if (provider == null) {
             throw new ApiException("invalid provider");
         }
         List<Offer> acceptedOffers = offersRepository.findAllByProviderIdAndStatusEquals(provider.getId(), "accepted");
         if (acceptedOffers.isEmpty()) {
             throw new ApiException("sorry, there is no accepted offers now");
+        }else if (!provider.getUser().getId().equals(user_id)){
+            throw new ApiException("invalid ");
         }
         return acceptedOffers;
     }
 
-    public List<Offer> viewMyPendingOffers(Integer provider_id) {
-
-        Provider provider = providerRepository.findProviderById(provider_id);
+    public List<Offer> viewMyPendingOffers(Integer user_id) {
+        User user = authRepository.findUserById(user_id);
+        Provider provider = providerRepository.findProviderById(user.getProvider().getId());
         if (provider == null) {
             throw new ApiException("invalid provider");
         }
         List<Offer> pendingOffers = offersRepository.findAllByProviderIdAndStatusEquals(provider.getId(), "pending");
         if (pendingOffers.isEmpty()) {
             throw new ApiException("sorry, there is no pending offers now");
-        }
+        }else if (!provider.getUser().getId().equals(user_id)){
+        throw new ApiException("invalid ");
+    }
         return pendingOffers;
     }
 
-    public List<Offer> viewMyRejectedOffers(Integer provider_id) {
-
-        Provider provider = providerRepository.findProviderById(provider_id);
+    public List<Offer> viewMyRejectedOffers(Integer user_id) {
+        User user = authRepository.findUserById(user_id);
+        Provider provider = providerRepository.findProviderById(user.getProvider().getId());
         if (provider == null) {
             throw new ApiException("invalid provider");
         }
         List<Offer> rejectedOffers = offersRepository.findAllByProviderIdAndStatusEquals(provider.getId(), "rejected");
         if (rejectedOffers.isEmpty()) {
             throw new ApiException("there is no rejected");
+        }else if (!provider.getUser().getId().equals(user_id)){
+            throw new ApiException("invalid ");
         }
         return rejectedOffers;
     }

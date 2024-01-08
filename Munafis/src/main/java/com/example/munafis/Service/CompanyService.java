@@ -2,12 +2,16 @@ package com.example.munafis.Service;
 
 
 import com.example.munafis.API.ApiException;
+import com.example.munafis.DTO.CompanyDTO;
 import com.example.munafis.Model.Company;
 import com.example.munafis.Model.Orderr;
 import com.example.munafis.Model.Provider;
+import com.example.munafis.Model.User;
+import com.example.munafis.Repository.AuthRepository;
 import com.example.munafis.Repository.CompanyRepository;
 import com.example.munafis.Repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +23,7 @@ public class CompanyService {
 
     private final CompanyRepository companyRepository;
     private final OrderRepository orderRepository;
-
+    private final AuthRepository authRepository;
 
 
     public List getAllCompanies(){
@@ -28,29 +32,37 @@ public class CompanyService {
     }
 
     //Register
-    public void addCompany(Company company){
+    public void register(CompanyDTO companyDTO){
+        String hash = new BCryptPasswordEncoder().encode(companyDTO.getPassword());
+        companyDTO.setPassword(hash);
+        User user = new User(null,companyDTO.getUsername(),companyDTO.getPassword(),companyDTO.getEmail(),companyDTO.getRole(),null,null);
+        authRepository.save(user);
 
+
+        user.setRole("Company");
+
+        Company company = new Company(null,companyDTO.getCompanyName(),companyDTO.getBusinessNumber(),companyDTO.getAddress(),user,null,null);
         companyRepository.save(company);
+
     }
 
-    public void updateCompany(Integer id, Company company){
-        Company oldCompany=companyRepository.findCompanyById(id);
+    public void updateCompany(CompanyDTO companyDTO,Integer id){
+        User user = authRepository.findUserById(id);
+        Company oldCompany = companyRepository.findCompanyById(user.getCompany().getId());
         if(oldCompany==null){
             throw new ApiException("company id not found");
         }
-        oldCompany.setAddress(company.getAddress());
-        oldCompany.setBusinessNumber(company.getBusinessNumber());
-        oldCompany.setOrders(company.getOrders());
-        oldCompany.setCompanyName(company.getCompanyName());
-
-        oldCompany.setRfps(company.getRfps());
+        else if (!oldCompany.getUser().getId().equals(id)){
+            throw new ApiException("Sorry, You cannot update this Company");
+        }
+        oldCompany.setAddress(companyDTO.getAddress());
 
         companyRepository.save(oldCompany);
 
     }
 
 
-
+    //admin
     public void deleteCompany(Integer id){
         Company company=companyRepository.findCompanyById(id);
         if(company==null){
@@ -59,67 +71,50 @@ public class CompanyService {
         companyRepository.delete(company);
     }
 
-    public List<Orderr> viewMyCompletedOrders(Integer company_id){
-        Company company=companyRepository.findCompanyById(company_id);
+    public List<Orderr> viewMyCompletedOrders(Integer user_id){
+        User user = authRepository.findUserById(user_id);
+        Company company=companyRepository.findCompanyById(user.getCompany().getId());
         if(company==null){
-            throw new ApiException("company id not found");
+            throw new ApiException("company  not found");
+        }else if (!company.getUser().getId().equals(user_id)){
+            throw new ApiException("You cannot view this company details");
         }
-        List<Orderr> orders = orderRepository.findAllByStatusEqualsAndCompanyId("completed",company_id);
+        List<Orderr> orders = orderRepository.findAllByStatusEqualsAndCompanyId("completed",company.getId());
         if (orders.isEmpty()){
             throw new ApiException("there is no completed orders");
         }
         return orders;
     }
-    public List<Orderr> viewMyPendingOrders(Integer company_id){
-        Company company=companyRepository.findCompanyById(company_id);
+    public List<Orderr> viewMyPendingOrders(Integer user_id){
+        User user = authRepository.findUserById(user_id);
+        Company company=companyRepository.findCompanyById(user.getCompany().getId());
         if(company==null){
             throw new ApiException("company id not found");
         }
-        List<Orderr> orders = orderRepository.findAllByStatusEqualsAndCompanyId("pending",company_id);
+        else if (!company.getUser().getId().equals(user_id)){
+            throw new ApiException("You cannot view this company details");
+        }
+        List<Orderr> orders = orderRepository.findAllByStatusEqualsAndCompanyId("pending",company.getId());
         if (orders.isEmpty()){
             throw new ApiException("there is no pending orders");
         }
         return orders;
     }
 
-
     //Only Company
-    public Set<Orderr> getMyOrdersByStatusAccepted(Integer id){
-        Company company =companyRepository.findCompanyById(id);
+    public List<Orderr> viewMyAcceptedOrders(Integer user_id){
+        User user = authRepository.findUserById(user_id);
+        Company company=companyRepository.findCompanyById(user.getCompany().getId());
         if(company==null){
-            throw new ApiException("company not found");
+            throw new ApiException("company  not found");
+        }else if (!company.getUser().getId().equals(user_id)){
+            throw new ApiException("You cannot view this company details");
         }
-        Set<Orderr> orders = orderRepository.getMyOrdersByStatusAccepted();
-        if(orders.isEmpty()){
-            throw new ApiException("You have no accepted orders");
+        List<Orderr> orders = orderRepository.findAllByStatusEqualsAndCompanyId("completed",company.getId());
+        if (orders.isEmpty()){
+            throw new ApiException("there is no Accepted orders");
         }
         return orders;
     }
 
-    //Only Company
-    public Set<Orderr> getMyOrdersStatusPending(Integer id){
-        Company company =companyRepository.findCompanyById(id);
-        if(company==null){
-            throw new ApiException("company not found");
-        }
-        Set<Orderr> orders = orderRepository.getMyOrdersStatusPending();
-        if(orders.isEmpty()){
-            throw new ApiException("You have no pending orders");
-        }
-        return orders;
-    }
-
-
-    //Only Company
-    public Set<Orderr> getMyOrdersStatusCompleted(Integer id){
-        Company company =companyRepository.findCompanyById(id);
-        if(company==null){
-            throw new ApiException("company not found");
-        }
-        Set<Orderr> orders = orderRepository.getMyOrdersStatusCompleted();
-        if(orders.isEmpty()){
-            throw new ApiException("You have no Completed orders");
-        }
-        return orders;
-    }
 }

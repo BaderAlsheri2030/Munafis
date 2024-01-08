@@ -30,12 +30,6 @@ public class ProductService {
 
 
 
-    //Only provider
-//    public List getMyProducts(){
-//
-//    }
-
-
     public List getMyProducts(Integer user_id){
         User user=authRepository.findUserById(user_id);
         Provider provider = providerRepository.findProviderById(user.getProvider().getId());
@@ -49,11 +43,15 @@ public class ProductService {
         return products;
     }
 
+
     //Only provider
-    public void addProduct(ProductDTO productDTO){
-        Provider provider = providerRepository.findProviderById(productDTO.getProvider_id());
+    public void addProduct(ProductDTO productDTO, Integer user_id){
+        User user = authRepository.findUserById(user_id);
+        Provider provider = providerRepository.findProviderById(user.getProvider().getId());
         if(provider==null){
             throw new ApiException("provider Id not found");
+        }else if (provider.getId().equals(productDTO.getProvider_id())){
+            throw new ApiException("Invalid provider input");
         }
 
         Product product = new Product(null,productDTO.getName(),productDTO.getPrice(),productDTO.getStock(),provider,null);
@@ -64,11 +62,21 @@ public class ProductService {
 
 
     //Only provider
-    public void updateProduct(Integer id,ProductDTO productDTO){
-
+    public void updateProduct(Integer id,ProductDTO productDTO,Integer user_id){
+        User user = authRepository.findUserById(user_id);
+        Provider provider = providerRepository.findProviderById(user.getProvider().getId());
         Product oldProduct = productRepository.findProductById(id);
+        Product product2 = new Product();
+        for (Product product:provider.getProducts()){
+            if (product.getId().equals(oldProduct.getId())){
+                product2 = oldProduct;
+                break;
+            }
+        }
         if(oldProduct==null){
             throw new ApiException("Product Id not found");
+        }else if (!product2.getProvider().getId().equals(provider.getId())){
+            throw new ApiException("invalid product input, you cannot update this product");
         }
 
         oldProduct.setName(productDTO.getName());
@@ -80,10 +88,14 @@ public class ProductService {
 
 
     //Only provider
-    public void deleteProduct(Integer id){
+    public void deleteProduct(Integer id,Integer user_id){
+        User user = authRepository.findUserById(user_id);
+        Provider provider = providerRepository.findProviderById(user.getProvider().getId());
         Product product=productRepository.findProductById(id);
         if(product==null){
             throw new ApiException("product id  not found");
+        }else if (product.getProvider().getId().equals(provider.getId())){
+            throw new ApiException("Invalid, you cannot delete this product");
         }
         productRepository.delete(product);
     }
@@ -108,6 +120,10 @@ public class ProductService {
             throw new ApiException("product id not found");
         }
         return product;
+    }
+    public List<Product> getAllProductsByProvider(String name){
+        List<Product> products = productRepository.findAllByProviderCompanyName(name);
+        return products;
     }
 
     //All

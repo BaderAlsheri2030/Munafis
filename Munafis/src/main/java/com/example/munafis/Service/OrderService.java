@@ -24,34 +24,28 @@ public class OrderService {
     private final CompanyRepository companyRepository;
     private final ProductsDetailsRepository productsDetailsRepository;
     private final AuthRepository authRepository;
+    private final ProviderRepository providerRepository;
 
 
     //Admin
     public List getAllOrders() {
-
         return orderRepository.findAll();
     }
 
 
-    public void addOrder(OrderDTO orderDTO) {
+    public void addOrder(OrderDTO orderDTO,Integer user_id) {
         double totalPriceProduct = 0;
         double totalPriceService = 0;
         double totalPrice = 0;
         double price = 0;
-
-
+        User user = authRepository.findUserById(user_id);
         Company company = companyRepository.findCompanyById(orderDTO.getCompany_id());
-
-        if(company==null){
-            throw new ApiException("company id nit found");
+        if (!company.getId().equals(user.getCompany().getId())){
+            throw new ApiException("Invalid input, you cannot add an order for this company");
         }
 
         Set<ProductsDetails> productsDetails = new HashSet<>();
         Set<com.example.munafis.Model.Service> serviceList = new HashSet<>();
-
-//     Set<Product> products = new HashSet<>();
-//     Set<com.example.munafis.Model.Service> services = new HashSet<>();
-
 
         for (ProductsDetails productsDetails1 : orderDTO.getProductsDetails()) {
 
@@ -94,6 +88,7 @@ public class OrderService {
             productsDetails1.setOrder(orderr);
             productsDetailsRepository.save(productsDetails1);
         }
+
         for(com.example.munafis.Model.Service service: orderr.getServices()){
             service.setOrder(orderr);
             serviceRepository.save(service);
@@ -102,13 +97,25 @@ public class OrderService {
 
     }
 
-    public void updateOrder(OrderDTO orderDTO , Integer id){
-        Orderr order = orderRepository.findOrderrById(id);
+    public void updateOrder(OrderDTO orderDTO , Integer user_id,Integer order_id){
+        User user = authRepository.findUserById(user_id);
+        Company company = companyRepository.findCompanyById(user.getCompany().getId());
+        Orderr order = orderRepository.findOrderrById(order_id);
+        Orderr orderr1 = new Orderr();
+
+        for (Orderr orderr:company.getOrders()){
+            if (orderr.getId().equals(order.getId())){
+                orderr1 = orderr;
+                break;
+            }
+        }
         if(order==null){
             throw new ApiException("order not found");
         }
-        if(!order.getStatus().equals("pending")){
-            throw new ApiException("th order cannot updated");
+        if(!order.getStatus().equals("pending") && !order.getStatus().equals("completed")){
+            throw new ApiException("the order cannot be updated");
+        }else if (!orderr1.getCompany().getId().equals(company.getId())){
+            throw new ApiException("invalid input you cannot update offer");
         }
 
         order.setServices(orderDTO.getServices());
@@ -128,10 +135,24 @@ public class OrderService {
         orderRepository.delete(order);
     }
 
-    public String invoice(Integer order_id){
+    public String invoice(Integer order_id,Integer user_id){
+        User user = authRepository.findUserById(user_id);
+        Company company = companyRepository.findCompanyById(user.getCompany().getId());
         Orderr order = orderRepository.findOrderrById(order_id);
+        Orderr orderr1 = new Orderr();
+        for (Orderr orderr:company.getOrders()){
+            if (orderr.getId().equals(order.getId())){
+                orderr1 = orderr;
+
+            }
+        }
+
         if(order==null){
             throw new ApiException("order not found");
+        }
+
+        if (!orderr1.getCompany().getId().equals(company.getId())){
+            throw new ApiException("You cannot issue invoice for this order");
         }
         if(!order.getStatus().equals("accepted")){
             throw new ApiException("invoice cannot be issued before the order is accepted");
@@ -140,7 +161,6 @@ public class OrderService {
         List<com.example.munafis.Model.Service> serviceList = new ArrayList<>(order.getServices());
         for (com.example.munafis.Model.Service service : order.getServices()){
             serviceList.add(service);
-
         }
 
         for (ProductsDetails p : order.getProductsDetails()){
@@ -151,7 +171,7 @@ public class OrderService {
                 "Company Name: " + order.getCompany().getCompanyName()  + '\n' +
                 "Total Price: " + order.getTotalPrice() +   '\n' +
                 "Services: " + serviceList  +   '\n' +
-                "Products: " + productsDetails + '\n';
+                 "Products: " + productsDetails + '\n';
 
     }
 
@@ -175,3 +195,4 @@ public class OrderService {
 
 
 }
+

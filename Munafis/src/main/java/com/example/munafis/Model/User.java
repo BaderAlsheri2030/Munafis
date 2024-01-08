@@ -31,7 +31,7 @@ public class User implements UserDetails {
     @Column(columnDefinition = "varchar(50) not null unique")
     @NotNull(message = "UserName cannot be null")
     private String username;
-    @Column(columnDefinition = "varchar(50) not null")
+//    @Column(columnDefinition = "varchar(50)")
     @NotNull(message = "Password cannot be null")
     private String password;
     @Column(columnDefinition = "varchar(50) not null unique")
@@ -42,8 +42,10 @@ public class User implements UserDetails {
     @Column(columnDefinition = "varchar(10) not null check (role='Company' or role='Provider')")
     private String role;
 
+
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "user")
     private Company company;
+
 
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "user")
     private Provider provider;

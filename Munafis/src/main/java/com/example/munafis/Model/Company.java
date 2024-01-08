@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Company {
+public class Company  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

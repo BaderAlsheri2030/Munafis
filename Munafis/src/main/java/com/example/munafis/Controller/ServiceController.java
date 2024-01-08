@@ -27,20 +27,26 @@ public class ServiceController {
 
     //ALL
     @GetMapping("/get")
-    public ResponseEntity getAllServices()
-    {
+    public ResponseEntity getAllServices(){
         return ResponseEntity.status(200).body(serviceService.getAllServices());
     }
 
-    //Only provider
-    @GetMapping("/Get-My-Services")
-    public ResponseEntity getMyServices(@AuthenticationPrincipal User user){
-        List<Service> services = serviceService.getMyServices(user.getId());
-        return ResponseEntity.status(200).body(services);
+    @GetMapping("/getAllByOrderByPrice")
+    public ResponseEntity getAllByOrderByPrice(){
+        List<Service> services = serviceService.getAllByOrderByPrice();
+        return  ResponseEntity.status(200).body(services);
     }
 
 
-    //Only provider
+    //ALl
+    @GetMapping("/getServicesByName/{name}")
+    public ResponseEntity getServicesByName(@PathVariable String name){
+        List<Service> services = serviceService.getServicesByName(name);
+        return  ResponseEntity.status(200).body(services);
+    }
+
+
+
     @PostMapping("/add")
     public ResponseEntity addService(@Valid @RequestBody ServiceDTO serviceDTO,  @AuthenticationPrincipal User user){
         serviceService.addService(serviceDTO,user.getId());
@@ -63,22 +69,10 @@ public class ServiceController {
         serviceService.deleteService(id,user.getId());
         return  ResponseEntity.status(200).body("Service deleted");
     }
-
-
-
-    //ALl
-    @GetMapping("/getAllByOrderByPrice")
-    public ResponseEntity getAllByOrderByPrice(){
-        List<Service> services = serviceService.getAllByOrderByPrice();
-        return  ResponseEntity.status(200).body(services);
-    }
-
-
-    //ALl
-    @GetMapping("/getServicesByName/{name}")
-    public ResponseEntity getServicesByName(@PathVariable String name){
-        List<Service> services = serviceService.getServicesByName(name);
-        return  ResponseEntity.status(200).body(services);
+    @GetMapping("/Get-My-Services")
+    public ResponseEntity getMyServices(@AuthenticationPrincipal User user){
+        List<Service> services = serviceService.getMyServices(user.getId());
+        return ResponseEntity.status(200).body(services);
     }
 
 }

@@ -6,10 +6,13 @@ import com.example.munafis.DTO.ProductDetalisDTO;
 import com.example.munafis.Model.Product;
 import com.example.munafis.Model.ProductsDetails;
 import com.example.munafis.Model.Provider;
+import com.example.munafis.Model.User;
+import com.example.munafis.Repository.AuthRepository;
 import com.example.munafis.Repository.ProductRepository;
 import com.example.munafis.Repository.ProductsDetailsRepository;
 import com.example.munafis.Repository.ProviderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +26,7 @@ public class ProductsDetailsService {
     private final ProductsDetailsRepository productsDetailsRepository;
     private final ProductRepository productRepository;
     private final ProviderRepository providerRepository;
-    private final ProviderService providerService;
+    private final AuthRepository authRepository;
 
 
 
@@ -58,16 +61,23 @@ public class ProductsDetailsService {
 
 
 
-    public void addStock(Integer provider_id, Integer product_id , Integer quantity){
-        Provider provider= providerRepository.findProviderById(provider_id);
+    public void addStock(Integer product_id ,Integer quantity,Integer user_id){
+        User user = authRepository.findUserById(user_id);
+        Provider provider= providerRepository.findProviderById(user.getProvider().getId());
         Product product = productRepository.findProductById(product_id);
-
-        if(provider==null){
-            throw new ApiException("provider id not found");
+        Product p2 = new Product();
+        for (Product product1:provider.getProducts()){
+            if (product1.getId().equals(product.getId())){
+                p2 = product1;
+            }
         }
         if(product==null){
             throw new ApiException("product id not found");
         }
+        if (!p2.getProvider().getId().equals(product.getId())){
+            throw new ApiException("invalid, you cannot add stock to this product");
+        }
+
         product.setStock(product.getStock()+quantity);
         productRepository.save(product);
     }

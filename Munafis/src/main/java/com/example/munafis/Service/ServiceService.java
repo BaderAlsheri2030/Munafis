@@ -26,13 +26,27 @@ public class ServiceService {
     private final AuthRepository authRepository;
 
 
-
     //All
     public List getAllServices() {
-
         return serviceRepository.findAll();
     }
 
+    //All
+    public List getAllByOrderByPrice(){
+        List<Service> services =serviceRepository.findAllByOrderByPrice();
+        if(services==null){
+            throw new ApiException("no services");
+        }
+        return services;
+    }
+    //all
+    public List getServicesByName(String name){
+        List<Service> services =serviceRepository.findServicesByServiceName(name);
+        if(services.isEmpty()){
+            throw new ApiException("no services same this name");
+        }
+        return services;
+    }
     public List getMyServices(Integer user_id){
         User user=authRepository.findUserById(user_id);
         Provider provider = providerRepository.findProviderById(user.getProvider().getId());
@@ -40,13 +54,11 @@ public class ServiceService {
         if(!provider.getId().equals(user_id)){
             throw new ApiException("cannot see this services");
         }
-    if (services.isEmpty()){
+        if (services.isEmpty()){
             throw new ApiException("services not found");
         }
         return services;
     }
-
-
     public void addService(ServiceDTO serviceDTO, Integer user_id){
         User user =authRepository .findUserById(user_id);
         Provider provider = providerRepository.findProviderById(user.getProvider().getId());
@@ -59,9 +71,6 @@ public class ServiceService {
         Service service = new Service(null,serviceDTO.getServiceName(),serviceDTO.getServiceType(),serviceDTO.getServiceDetails(),serviceDTO.getPrice(),provider,null);
         serviceRepository.save(service);
     }
-
-
-
     public void updateService(Integer id, ServiceDTO serviceDTO ,Integer user_id) {
         User user = authRepository.findUserById(user_id);
         Provider provider = providerRepository.findProviderById(user.getProvider().getId());
@@ -87,7 +96,6 @@ public class ServiceService {
         serviceRepository.save(oldService);
 
     }
-
     public void deleteService(Integer id, Integer user_id) {
         User user = authRepository.findUserById(user_id);
         Provider provider = providerRepository.findProviderById(user.getProvider().getId());
@@ -99,26 +107,6 @@ public class ServiceService {
             throw new ApiException("Invalid, you cannot delete this service");
         }
         serviceRepository.delete(service);
-    }
-
-
-
-    //All
-    public List getAllByOrderByPrice(){
-        List<Service> services =serviceRepository.findAllByOrderByPrice();
-        if(services==null){
-            throw new ApiException("no services");
-        }
-        return services;
-    }
-
-    //All
-    public List getServicesByName(String name){
-        List<Service> services =serviceRepository.findServicesByServiceName(name);
-        if(services.isEmpty()){
-            throw new ApiException("no services same this name");
-        }
-        return services;
     }
 }
 

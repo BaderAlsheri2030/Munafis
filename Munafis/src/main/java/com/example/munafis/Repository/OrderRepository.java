@@ -2,7 +2,6 @@ package com.example.munafis.Repository;
 
 
 import com.example.munafis.Model.Orderr;
-import com.example.munafis.Model.Service;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,7 +16,7 @@ Orderr findOrderrById(Integer id);
 
 List<Orderr> findAllByStatusEqualsAndCompanyId(String Status,Integer company_id);
 
-
+List<Orderr> findAllByStatusEqualsIgnoreCase(String stat);
 
 
     @Query("select o from Orderr o where o.status= 'accepted'")

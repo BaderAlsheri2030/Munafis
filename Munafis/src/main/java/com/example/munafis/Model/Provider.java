@@ -8,7 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -16,15 +19,19 @@ import java.util.Set;
 @Entity
 @Setter
 @Getter
-public class Provider {
+public class Provider{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(columnDefinition = "varchar(50) not null")
+    @NotNull(message = "company name cannot be null")
     private String companyName;
     @Column(columnDefinition = "varchar(50) not null unique")
+    @NotNull(message = "business number cannot be null")
     private String businessNumber;
     @Column(columnDefinition = "varchar(50) not null")
+    @NotNull(message = "address cannot be null")
     private String address;
 
     @Column(columnDefinition = "varchar(50) not null")
@@ -46,4 +53,6 @@ public class Provider {
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "provider")
     private Set<Offer> offers;
+
+
 }

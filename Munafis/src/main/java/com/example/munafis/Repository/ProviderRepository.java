@@ -16,6 +16,4 @@ public interface ProviderRepository extends JpaRepository<Provider,Integer> {
 
   Provider findByCompanyName(String companyName);
 
-
-
 }
