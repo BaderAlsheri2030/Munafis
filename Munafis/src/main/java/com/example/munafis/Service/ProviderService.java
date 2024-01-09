@@ -27,7 +27,11 @@ public class ProviderService {
     private final RfpRepository rfpRepository;
     private final AuthRepository authRepository;
 
-    public List getAllProviders() {
+    public List<Provider> getAllProviders(Integer user_id)
+    {   User user =authRepository.findUserById(user_id);
+        if (!user.getRole().equals("ADMIN")) {
+            throw new ApiException("You have no access");
+        }
         return providerRepository.findAll();
     }
 
@@ -36,12 +40,13 @@ public class ProviderService {
     public void register(ProviderDTO providerDTO ){
         String hash = new BCryptPasswordEncoder().encode(providerDTO.getPassword());
         providerDTO.setPassword(hash);
-        User user = new User(null,providerDTO.getUsername(),null,providerDTO.getEmail(),providerDTO.getRole(),null,null);
+        User user = new User(null,providerDTO.getUsername(),providerDTO.getPassword(),providerDTO.getEmail(),providerDTO.getRole(),null,null);
 
 
-        user.setRole("Provider");
+        user.setRole("PROVIDER");
 
         Provider provider = new Provider(null, providerDTO.getCompanyName(), providerDTO.getBusinessNumber(), providerDTO.getAddress(), providerDTO.getField(), user,null,null,null);
+        user.setProvider(provider);
         authRepository.save(user);
         providerRepository.save(provider);
 

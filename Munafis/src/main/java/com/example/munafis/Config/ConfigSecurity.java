@@ -12,8 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@RequiredArgsConstructor
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class ConfigSecurity {
 
     private final MyUserDetailsService myUserDetailsService;
@@ -36,10 +36,14 @@ public class ConfigSecurity {
                 .and()
                 .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/company/add", "/api/v1/provider/add","/api/v1/auth/login","/api/v1/product/getProductsByName/**","/api/v1/provider/getAllProductsByProvider/**","api/v1/provider/getAllServicesByProvider/**","/api/v1/provider/update").permitAll()
-                .requestMatchers("/api/v1/auth/delete/**","/api/v1/auth/get-All-Users","/api/v1/company/delete/**","/api/v1/company/get","/api/v1/comp/add","/api/v1/comp/**","/api/v1/comp/get","/api/v1/offer/get-all-offers","/api/v1/order/get","vapi/v1/order/delete/**","/api/v1/order/acceptOrder/**","/api/v1/provider/get","/api/v1/provider/delete/**").hasAuthority("ADMIN")
-                .requestMatchers("/api/v1/company/view-accepted-orders","/api/v1/company/view-completed-orders","/api/v1/company/view-pending-orders-orders","api/v1/company/update","api/v1/order/add","api/v1/order/update/**","api/v1/order/invoice/**","/api/v1/product/get").hasAuthority("company")
-                .requestMatchers("/api/v1/offer/create-offer/**","/api/v1/offer/update-offer/**","/api/v1/offer/delete-offer/**","/api/v1/product/add","/api/v1/product/delete/**","/api/v1/product/update/**","/api/v1/product/getProductInfo/**","/api/v1/productsDetails/addStock/**","/api/v1/provider/viewMyAcceptedOffers","/api/v1/provider/viewMyPendingOffers","/api/v1/provider/viewMyRejectedOffers").hasAuthority("provider")
+//                .requestMatchers("api/v1/auth/register","api/v1/auth/login","api/v1/company/add","api/v1/provider/add","api/v1/proposal/get-all-proposals-permit-all").permitAll()
+//                .requestMatchers("api/v1/proposal/create-proposal/{comp_id}","api/v1/company/my-company","api/v1/company/view-accepted-orders","api/v1/company/view-pending-orders","api/v1/company/view-completed-orders","api/v1/proposal/viewReceivedOffers/**","api/v1/proposal/acceptOffer/**").hasAuthority("COMPANY")
+//                .requestMatchers("api/v1/auth/get-all-users","/api/v1/comp/add","api/v1/company/get","api/v1/auth/encode/**","api/v1/company/delete/**","api/v1/offer/get-all-offers").hasAuthority("ADMIN")
+//                .requestMatchers("api/v1/offer/create-offer/**","api/v1/offer/delete-offer/**","api/v1/offer/update-offer/**").hasAuthority("PROVIDER")
+                .requestMatchers("/api/v1/company/add", "/api/v1/provider/add","/api/v1/auth/login","/api/v1/product/getProductsByName/**","/api/v1/provider/getAllProductsByProvider/**","api/v1/provider/getAllServicesByProvider/**","/api/v1/provider/update","api/v1/proposal/get-all-proposals-permit-all","api/v1/auth/encode/**").permitAll()
+                .requestMatchers("/api/v1/auth/delete/**","/api/v1/auth/get-All-Users","/api/v1/company/delete/**","/api/v1/company/get","/api/v1/comp/add","/api/v1/comp/**","/api/v1/comp/get","/api/v1/offer/get-all-offers","/api/v1/order/get","/api/v1/order/delete/**","/api/v1/order/acceptOrder/**","/api/v1/provider/get","/api/v1/provider/delete/**").hasAuthority("ADMIN")
+                .requestMatchers("/api/v1/company/view-accepted-orders","/api/v1/company/view-completed-orders","/api/v1/company/view-pending-orders-orders","api/v1/company/update","api/v1/order/add","api/v1/order/update/**","api/v1/order/invoice/**","/api/v1/product/get","api/v1/proposal/acceptOffer/**","api/v1/proposal/viewReceivedOffers/**","api/v1/company/my-company","api/v1/proposal/create-proposal/**").hasAuthority("COMPANY")
+                .requestMatchers("/api/v1/offer/create-offer/**","/api/v1/offer/update-offer/**","/api/v1/offer/delete-offer/**","/api/v1/product/add","/api/v1/product/delete/**","/api/v1/product/update/**","/api/v1/product/getProductInfo/**","/api/v1/productsDetails/addStock/**","/api/v1/provider/viewMyAcceptedOffers","/api/v1/provider/viewMyPendingOffers","/api/v1/provider/viewMyRejectedOffers").hasAuthority("PROVIDER")
                 .anyRequest().authenticated()
                 .and()
                 .logout().logoutUrl("api/v1/auth/logout")
@@ -47,10 +51,7 @@ public class ConfigSecurity {
                 .invalidateHttpSession(true)
                 .and()
                 .httpBasic();
-                return http.build();
+                 return http.build();
+
     }
 }
-
-
-
-

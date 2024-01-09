@@ -24,15 +24,11 @@ public class Company  {
     private Integer id;
 
     @Column(columnDefinition = "varchar(50) not null")
-    @NotNull(message = "company name cannot be null")
     private String companyName;
     @Column(columnDefinition = "varchar(50) not null unique")
-    @NotNull(message = "business number cannot be null")
     private String businessNumber;
     @Column(columnDefinition = "varchar(50) not null")
-    @NotNull(message = "address cannot be null")
     private String address;
-
     @OneToOne
     @JoinColumn(name = "user_id",referencedColumnName = "id")
     @JsonIgnore

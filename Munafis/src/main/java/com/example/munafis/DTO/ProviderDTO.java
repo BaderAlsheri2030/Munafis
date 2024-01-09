@@ -18,34 +18,20 @@ import java.util.Set;
 @AllArgsConstructor
 public class ProviderDTO {
     private Integer user_id;
-//    @NotNull(message = "address cannot be null")
-//    private String address;
-//    @NotNull(message = "business number cannot be null")
-//    private String business_number;
-//    @NotNull(message = "company name cannot be null")
-//    private String company_name;
-//    @NotNull(message = "field cannot be null")
 
-    @Column(columnDefinition = "varchar(50) not null unique")
     @NotNull(message = "UserName cannot be null")
     private String username;
-    @Column(columnDefinition = "varchar(50) not null")
     @NotNull(message = "Password cannot be null")
     private String password;
-    @Column(columnDefinition = "varchar(50) not null unique")
     @Email(message = "Must be a valid email")
     @NotNull(message = "email cannot be null")
     private String email;
-    @Pattern(regexp = "^(Company|Provider)$" , message = "Role must be Company or Provider only")
-    @Column(columnDefinition = "varchar(10) not null check (role='Company' or role='Provider')")
+    @Pattern(regexp = "^(COMPANY|PROVIDER)$" , message = "Role must be Company or Provider only")
     private String role;
-    @Column(columnDefinition = "varchar(50) not null")
     @NotNull(message = "company name cannot be null")
     private String companyName;
-    @Column(columnDefinition = "varchar(50) not null unique")
     @NotNull(message = "business number cannot be null")
     private String businessNumber;
-    @Column(columnDefinition = "varchar(50) not null")
     @NotNull(message = "address cannot be null")
     private String address;
     private String field;

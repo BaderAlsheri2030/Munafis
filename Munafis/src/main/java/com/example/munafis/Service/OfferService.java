@@ -33,6 +33,12 @@ public class OfferService {
         User user = authRepository.findUserById(user_id);
         Rfp rfp = rfpRepository.findRfpById(rfp_id);
         Provider provider = providerRepository.findProviderById(user.getProvider().getId());
+
+        for (Offer offer1: provider.getOffers()){
+            if (offer1.getRfp().getId().equals(rfp.getId())){
+                throw new ApiException("you can only make one offer for a project");
+            }
+        }
         if (rfp == null){
             throw new ApiException("Proposal doesn't exist");
         }
@@ -42,6 +48,7 @@ public class OfferService {
             throw new ApiException("you cannot add an offer for this provider");
         }
         Offer offer = new Offer(null,offerDTO.getDescription(),offerDTO.getDead_line(),offerDTO.getPrice(),"pending",offerDTO.getConditions(),rfp,provider);
+
         offerRepository.save(offer);
     }
 

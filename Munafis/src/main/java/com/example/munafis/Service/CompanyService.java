@@ -27,10 +27,15 @@ public class CompanyService {
 
 
     public List getAllCompanies(){
-
         return companyRepository.findAll();
     }
 
+
+    public Company getMycompany(Integer user_id){
+        User user = authRepository.findUserById(user_id);
+        Company company = companyRepository.findCompanyByUser(user);
+        return company;
+    }
     //Register
     public void register(CompanyDTO companyDTO){
         String hash = new BCryptPasswordEncoder().encode(companyDTO.getPassword());
@@ -39,9 +44,10 @@ public class CompanyService {
         authRepository.save(user);
 
 
-        user.setRole("Company");
+        user.setRole("COMPANY");
 
         Company company = new Company(null,companyDTO.getCompanyName(),companyDTO.getBusinessNumber(),companyDTO.getAddress(),user,null,null);
+        user.setCompany(company);
         companyRepository.save(company);
 
     }

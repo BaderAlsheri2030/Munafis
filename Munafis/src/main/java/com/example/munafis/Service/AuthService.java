@@ -15,17 +15,28 @@ public class AuthService {
     private final AuthRepository authRepository;
 
 
-//    public void register(User user){
-//
+//    public void register(UserDTO user){
 //        String hash = new BCryptPasswordEncoder().encode(user.getPassword());
 //        user.setPassword(hash);
-//        User user1 = new User(null, user.getUsername(), user.getPassword(), user.getEmail(), user.getRole(),null,null);
+//        User user1 = new User(null, user.getUsername(), user.getPassword(), user.getEmail(), user.getRole(), null,null);
 //        authRepository.save(user1);
-//
 //    }
+
     //only admin
     public List<User> getAllUsers(){
         return authRepository.findAll();
+    }
+
+    public void encryptAdminPass(Integer auth){
+
+        User user = authRepository.findUserById(auth);
+        if (user == null ){
+            throw new ApiException("no results found");
+        }else if (!user.getRole().equals("ADMIN")){
+            throw new ApiException("You have no access");
+        }
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        authRepository.save(user);
     }
 
     public void updateUser(User user,Integer auth){

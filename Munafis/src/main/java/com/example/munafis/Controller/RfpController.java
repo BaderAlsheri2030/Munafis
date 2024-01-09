@@ -16,24 +16,24 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("api/v1/proposal")
+@RequestMapping("/api/v1/proposal")
 @RequiredArgsConstructor
 public class RfpController {
 
     private final RfpService rfpService;
 
-    @GetMapping("get-all-proposals")
+    @GetMapping("/get-all-proposals")
     public ResponseEntity getAllProposals() {
         return ResponseEntity.status(200).body(rfpService.getAll());
     }
 
-    @GetMapping("get-all-proposals-permit-all")
+    @GetMapping("/get-all-proposals-permit-all")
     public ResponseEntity getProposals() {
         return ResponseEntity.status(200).body(rfpService.getAllProposals());
     }
 
     //create proposal using the company id and the competition id
-    @PostMapping("create-proposal/{comp_id}")
+    @PostMapping("/create-proposal/{comp_id}")
     public ResponseEntity addProposal(@PathVariable Integer comp_id, @Valid @RequestBody RfpDTO rfpDTO,@AuthenticationPrincipal User user) {
         rfpService.addRfp(rfpDTO,comp_id,user.getId());
         return ResponseEntity.status(200).body("Proposal created");
@@ -45,7 +45,7 @@ public class RfpController {
         return ResponseEntity.status(200).body("Proposal updated");
     }
 
-    @DeleteMapping("delete-proposal/{rfp_id}")
+    @DeleteMapping("/delete-proposal/{rfp_id}")
     public ResponseEntity deleteProposal(@PathVariable Integer rfp_id,@AuthenticationPrincipal User user) {
         rfpService.deleteRfp(rfp_id,user.getId());
         return ResponseEntity.status(200).body("Proposal deleted");
@@ -76,12 +76,14 @@ public class RfpController {
         Set<Rfp> rfps = rfpService.findRfpsBydeadlineBefore(date);
         return ResponseEntity.status(200).body(rfps);
     }
+
     //permit all
     @GetMapping("/find-proposals-Location/{location}")
     public ResponseEntity findProposalsByLocation(@PathVariable String location) {
         Set<Rfp> rfps = rfpService.findProposalsByLocation(location);
         return ResponseEntity.status(200).body(rfps);
     }
+
     //permit all
     @GetMapping("/findProposalsByCompanyName/{name}")
     public ResponseEntity findProposalsByCompanyName(@PathVariable String name) {
@@ -89,11 +91,10 @@ public class RfpController {
         return ResponseEntity.status(200).body(rfps);
     }
 
-
-
     @PutMapping("/reject-offer/{rfp_id}//{offer_id}")
     public ResponseEntity rejectOffer(@PathVariable Integer rfp_id, @PathVariable Integer offer_id, @AuthenticationPrincipal User user) {
         rfpService.rejectOffer(rfp_id, offer_id, user.getId());
         return ResponseEntity.status(200).body("offer rejected");
     }
+
 }

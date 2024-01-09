@@ -19,8 +19,13 @@ public class CompanyController {
 
     private final CompanyService companyService;
 
+
+    @GetMapping("/my-company")
+    public ResponseEntity getMycompany(@AuthenticationPrincipal User user){
+        return ResponseEntity.status(200).body(companyService.getMycompany(user.getId()));
+    }
     //admin
-    @GetMapping("get")
+    @GetMapping("/get")
     public ResponseEntity getAllCompanies(){
         return ResponseEntity.status(200).body(companyService.getAllCompanies());
     }
@@ -48,15 +53,15 @@ public class CompanyController {
     }
 
     //company
-    @GetMapping("view-completed-orders")
+    @GetMapping("/view-completed-orders")
     public ResponseEntity viewMyCompletedOrders(@AuthenticationPrincipal User user){
         return ResponseEntity.status(200).body(companyService.viewMyCompletedOrders(user.getId()));
     }
-    @GetMapping("view-pending-orders")
+    @GetMapping("/view-pending-orders")
     public ResponseEntity viewMyPendingOrders(@AuthenticationPrincipal User user){
         return ResponseEntity.status(200).body(companyService.viewMyPendingOrders(user.getId()));
     }
-    @GetMapping("view-accepted-orders")
+    @GetMapping("/view-accepted-orders")
     public ResponseEntity viewMyAcceptedOrders(@AuthenticationPrincipal User user){
         return ResponseEntity.status(200).body(companyService.viewMyAcceptedOrders(user.getId()));
     }

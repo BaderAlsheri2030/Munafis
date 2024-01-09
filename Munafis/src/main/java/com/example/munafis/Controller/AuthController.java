@@ -16,13 +16,14 @@ public class AuthController {
 
     private final AuthService authService;
 
-//    @PostMapping("/register")
-//    public ResponseEntity register(@RequestBody @Valid User user){
-//        authService.register(user);
-//        return ResponseEntity.status(200).body("User Registered");
-//    }
 
-    @GetMapping("/get-All-Users")
+    @PutMapping("/encode/{id}")
+    public ResponseEntity encryptAdminPass(@PathVariable Integer id){
+        authService.encryptAdminPass(id);
+        return ResponseEntity.status(200).body("password encrypted");
+    }
+
+    @GetMapping("/get-all-users")
     public ResponseEntity getAll(){
         return ResponseEntity.status(200).body(authService.getAllUsers());
     }

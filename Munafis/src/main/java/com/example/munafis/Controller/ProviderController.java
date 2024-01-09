@@ -24,8 +24,8 @@ public class ProviderController {
 
     //Admin
     @GetMapping("get")
-    public ResponseEntity getAllProviders(){
-        return ResponseEntity.status(200).body(providerService.getAllProviders());
+    public ResponseEntity getAllProviders(@AuthenticationPrincipal User user){
+        return ResponseEntity.status(200).body(providerService.getAllProviders(user.getId()));
     }
 
 
@@ -74,6 +74,16 @@ public class ProviderController {
         return ResponseEntity.status(200).body(offers);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity login(){
+        return ResponseEntity.status(200).body("login");
+    }
+
+
+    @PostMapping("/logout")
+    public ResponseEntity logOut(){
+        return ResponseEntity.status(200).body("logged out");
+    }
 
     @GetMapping("/viewMyPendingOffers")
     public ResponseEntity viewMyPendingOffers(@AuthenticationPrincipal User user) {

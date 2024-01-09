@@ -29,6 +29,9 @@ public class CompetitionService {
         if (user == null){
             throw new ApiException("invalid");
         }
+        if (!competitionRepository.findAll().isEmpty()){
+            throw new ApiException("You cannot add another competition");
+        }
         Competition competition1 = new Competition(null,null);
         competitionRepository.save(competition1);
     }
@@ -64,6 +67,5 @@ public class CompetitionService {
         }
         competitionRepository.delete(competition);
     }
-
 
 }

@@ -23,9 +23,6 @@ public class RfpService {
     private final OffersRepository offersRepository;
     private final AuthRepository authRepository;
 
-
-
-
     //admin
     public List<Rfp> getAll(){
         return rfpRepository.findAll();
@@ -39,12 +36,18 @@ public class RfpService {
                 proposals.add(rfp);
             }
         }
+        if (proposals.isEmpty()){
+            throw new ApiException("There is no proposals");
+        }
+        for (Rfp rfp:proposals){
+            rfp.setOffers(null);
+        }
         return proposals;
     }
 
     public void addRfp(RfpDTO rfpDTO,Integer comp_id,Integer user_id){
         User user = authRepository.findUserById(user_id);
-        Company company = companyRepository.findCompanyById(user.getCompany().getId());
+        Company company = companyRepository.findCompanyByUser(user);
         Competition competition = competitionRepository.findCompetitionById(comp_id);
 
         if (competition == null){
@@ -57,8 +60,10 @@ public class RfpService {
         }
         Rfp rfp = new Rfp(null,rfpDTO.getDescription(),rfpDTO.getReference_number(),rfpDTO.getCompetition_type(),rfpDTO.getDead_line(),rfpDTO.getLocation(),rfpDTO.getStartDate(),rfpDTO.getContract_length(),rfpDTO.getService_details(),rfpDTO.getTitle(),rfpDTO.isComplete(),rfpDTO.getName(),rfpDTO.getTime_left(),company,competition,null);
         rfpRepository.save(rfp);
+        companyRepository.save(company);
         competitionRepository.save(competition);
     }
+
 
     public void updateRfp(Integer rfp_id,RfpDTO rfpDTO,Integer user_id){
         User user = authRepository.findUserById(user_id);

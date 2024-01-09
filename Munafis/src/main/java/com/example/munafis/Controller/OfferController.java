@@ -10,17 +10,17 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/offer")
+@RequestMapping("/api/v1/offer")
 @RequiredArgsConstructor
 public class OfferController {
     private final OfferService offerService;
 
-    @GetMapping("get-all-offers")
+    @GetMapping("/get-all-offers")
     public ResponseEntity getAllOffers(){
         return ResponseEntity.status(200).body(offerService.getAllOffers());
     }
 
-    @PostMapping("create-offer/{rfp_id}")
+    @PostMapping("/create-offer/{rfp_id}")
     public ResponseEntity createOffer(@PathVariable Integer rfp_id, @Valid @RequestBody OfferDTO offerDTO, @AuthenticationPrincipal User user){
         offerService.addOffer(offerDTO,rfp_id,user.getId());
         return ResponseEntity.status(200).body("Offer created");

@@ -22,24 +22,22 @@ import java.util.Collections;
 @Setter
 @Getter
 public class User implements UserDetails {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(columnDefinition = "varchar(50) not null unique")
-    @NotNull(message = "UserName cannot be null")
+//    @NotNull(message = "UserName cannot be null")
     private String username;
-//    @Column(columnDefinition = "varchar(50)")
-    @NotNull(message = "Password cannot be null")
+    @Column(columnDefinition = "varchar(200) not null")
+    //    @NotNull(message = "Password cannot be null")
     private String password;
     @Column(columnDefinition = "varchar(50) not null unique")
-    @Email(message = "Must be a valid email")
-    @NotNull(message = "email cannot be null")
+//    @Email(message = "Must be a valid email")
+//    @NotNull(message = "email cannot be null")
     private String email;
-    @Pattern(regexp = "^(Company|Provider)$" , message = "Role must be Company or Provider only")
-    @Column(columnDefinition = "varchar(10) not null check (role='Company' or role='Provider')")
+//    @Pattern(regexp = "^(COMPANY|PROVIDER|ADMIN)$" , message = "Role must be Company or Provider only")
+//    @Column(columnDefinition = "varchar(10) not null check (role='COMPANY' or role='PROVIDER')")
     private String role;
 
 
@@ -56,15 +54,6 @@ public class User implements UserDetails {
 
     }
 
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
 
     @Override
     public boolean isAccountNonExpired() {

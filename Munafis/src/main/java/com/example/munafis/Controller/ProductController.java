@@ -90,8 +90,6 @@ public class ProductController {
     }
 
 
-
-
     @GetMapping("/getAllProductsByProvider/{provider_name}")
     private ResponseEntity getAllProductsByProvider(@PathVariable String provider_name){
         return ResponseEntity.status(200).body(productService.getAllProductsByProvider(provider_name));

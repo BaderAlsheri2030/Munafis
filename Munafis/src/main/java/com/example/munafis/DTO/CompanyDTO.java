@@ -22,7 +22,7 @@ public class CompanyDTO {
     @Email(message = "Must be a valid email")
     @NotNull(message = "email cannot be null")
     private String email;
-    @Pattern(regexp = "^(Company|Provider)$" , message = "Role must be Company or Provider only")
+    @Pattern(regexp = "^(COMPANY|PROVIDER)$" , message = "Role must be COMPANY or PROVIDER only")
     private String role;
     @NotNull(message = "company name cannot be null")
     private String companyName;
@@ -30,14 +30,6 @@ public class CompanyDTO {
     private String businessNumber;
     @NotNull(message = "address cannot be null")
     private String address;
-
-//    private Integer user_id;
-//    @NotNull(message = "address cannot be null")
-//    private String address;
-//    @NotNull(message = "business number cannot be null")
-//    private String business_number;
-//    @NotNull(message = "company name cannot be null")
-//    private String company_name;
-//    private Set<Orderr> orders;
-//    private Set<Rfp> rfps;
+    private Set<Orderr> orders;
+    private Set<Rfp> rfps;
 }
